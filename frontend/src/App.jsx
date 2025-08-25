@@ -1,0 +1,78 @@
+// App.jsx
+import { Routes, Route, useLocation } from 'react-router-dom'
+import { useEffect } from 'react'
+
+import Landing from './pages/Landing'
+import Login from './pages/Login'
+import Register from './pages/Register'
+import ForgotPassword from './pages/ForgotPassword'
+import ResetPassword from './pages/ResetPassword'
+import HomePage from './pages/HomePage'
+import Groups from './pages/Groups'
+import GroupNew from './pages/GroupNew'
+import GroupDetail from './pages/GroupDetail'
+import Terms from './pages/Terms'        // ← nuevo
+import Privacy from './pages/Privacy'    // ← nuevo
+
+import ProtectedRoute from './components/ProtectedRoute'
+
+function ScrollToTop() {
+  const { pathname } = useLocation()
+  useEffect(() => { window.scrollTo(0, 0) }, [pathname])
+  return null
+}
+
+export default function App() {
+  return (
+    <>
+      <ScrollToTop />
+      <Routes>
+        {/* públicas */}
+        <Route path="/" element={<Landing />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/forgot" element={<ForgotPassword />} />
+        <Route path="/reset" element={<ResetPassword />} />
+        <Route path="/terms" element={<Terms />} />         {/* ← nuevo */}
+        <Route path="/privacy" element={<Privacy />} />     {/* ← nuevo */}
+
+        {/* privadas */}
+        <Route
+          path="/home"
+          element={
+            <ProtectedRoute>
+              <HomePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/groups"
+          element={
+            <ProtectedRoute>
+              <Groups />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/groups/new"
+          element={
+            <ProtectedRoute>
+              <GroupNew />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/groups/:id"
+          element={
+            <ProtectedRoute>
+              <GroupDetail />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* 404 */}
+        <Route path="*" element={<div style={{ padding: 40 }}>404 — Página no encontrada</div>} />
+      </Routes>
+    </>
+  )
+}

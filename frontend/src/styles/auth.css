@@ -1,0 +1,210 @@
+/* ============================
+   Connecta+ — Auth screens
+   (Login / Register)
+   ============================ */
+
+/* Header mínimo con logo centrado */
+.auth-header{
+  height: 84px;
+  display: grid;
+  place-items: center;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  position: sticky; /* queda arriba si la página es larga */
+  top: 0;
+  z-index: 20;
+}
+.auth-logo{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+.auth-logo img{ height: 28px; }
+.auth-logo-text{
+  font-size: 22px;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: .2px;
+}
+
+/* Fondo suave para dar sensación de sección */
+.auth-wrap {
+  min-height: calc(100vh - 160px); /* header+footer aprox */
+  display: grid;
+  place-items: center;
+  padding: 48px 16px;
+  background:
+    radial-gradient(1200px 300px at 50% -80px, #eaf2ff 0, rgba(234,242,255,0) 70%),
+    #f8fafc;
+}
+
+/* Card compacta y centrada */
+.auth-card {
+  width: 520px;
+  max-width: 92vw;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  box-shadow: 0 10px 26px rgba(2,6,23,.08);
+  overflow: hidden;
+}
+
+.auth-card .head {
+  padding: 26px 26px 14px;
+  border-bottom: 1px solid #eef2f7;
+}
+.auth-card .head h1 {
+  font-size: 28px;
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: .2px;
+}
+.auth-card .head p {
+  margin: 6px 0 0;
+  color: #6b7280;
+}
+
+.auth-card .body { padding: 22px 26px 8px; }
+.auth-card .foot { padding: 14px 26px 22px; }
+
+.auth-label {
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 6px;
+}
+
+.auth-input {
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  padding: .72rem .9rem;
+}
+.auth-input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 .2rem rgba(37,99,235,.15);
+}
+
+.auth-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.auth-divider {
+  position: relative;
+  text-align: center;
+  margin: 16px 0 10px;
+  color: #94a3b8;
+  font-weight: 600;
+  letter-spacing: .6px;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+.auth-divider::before,
+.auth-divider::after{
+  content:"";
+  position: absolute;
+  top: 50%;
+  width: 38%;
+  height: 1px;
+  background: #e5e7eb;
+}
+.auth-divider::before{ left: 0; }
+.auth-divider::after{ right: 0; }
+
+.btn-google {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  padding: .70rem .9rem;
+  border-radius: 12px;
+  font-weight: 600;
+  color: #111827;
+}
+.btn-google:hover { background: #f8fafc; }
+
+.help-link { color: #2563eb; text-decoration: none; }
+.help-link:hover { text-decoration: underline; }
+
+.small-muted { color:#6b7280; }
+
+/* Botón principal consistente */
+.btn-primary { border-radius: 12px; padding: .78rem 1rem; }
+
+/* Anti-overflow local por si algún contenido crece */
+.auth-wrap, .auth-card { overflow: hidden; }
+
+/* --- Refuerzo global anti hueco a la derecha --- */
+.site, html, body { width: 100%; max-width: 100%; overflow-x: hidden !important; }
+
+/* ===== Modals (frontend-only) ===== */
+.modal-portal {
+  position: fixed;
+  inset: 0;
+  z-index: 1050;
+  display: grid;
+  place-items: center;
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(2, 6, 23, 0.45);
+}
+
+.modal-card {
+  position: relative;
+  width: 520px;
+  max-width: 92vw;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  box-shadow: 0 18px 40px rgba(2,6,23,.2);
+  overflow: hidden;
+  animation: modalIn .16s ease-out;
+}
+
+@keyframes modalIn {
+  from { transform: translateY(8px); opacity: .85; }
+  to   { transform: translateY(0);   opacity: 1; }
+}
+
+.modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid #eef2f7;
+}
+.modal-head h3 {
+  font-size: 18px;
+  font-weight: 800;
+  margin: 0;
+  color: #0f172a;
+}
+
+.modal-body { padding: 16px; }
+
+.modal-foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 12px 16px 16px;
+  background: #fafafa;
+  border-top: 1px solid #eef2f7;
+}
+
+/* Reestilizar el botón de cerrar */
+.btn-close {
+  width: 30px; height: 30px;
+  border: none; border-radius: 50%;
+  background: #f1f5f9;
+}
+.btn-close:hover { background:#e2e8f0; }
+

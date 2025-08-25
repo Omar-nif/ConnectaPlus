@@ -1,0 +1,52 @@
+// ======================================================================
+// Generador de cliente
+// ======================================================================
+// Prisma genera un cliente tipado de JS/TS para interactuar con la BD.
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ======================================================================
+// Conexión a la base de datos
+// ======================================================================
+// Configuración de la fuente de datos (PostgreSQL en este caso).
+// La URL se define en .env (DATABASE_URL).
+datasource db {
+  provider = "postgresql" // puedes usar "mysql" o "sqlite" según tu BD
+  url      = env("DATABASE_URL")
+}
+
+// ======================================================================
+// Modelo: User
+// ======================================================================
+// Representa a los usuarios de la aplicación.
+model User {
+  id        Int              @id @default(autoincrement()) // PK autoincremental
+  email     String           @unique                      // único por usuario
+  name      String?                                         // opcional
+  password  String                                         // contraseña hasheada
+  createdAt DateTime         @default(now())               // fecha creación
+
+  // Relación: un usuario puede tener varios PasswordReset
+  resets    PasswordReset[]
+}
+
+// ======================================================================
+// Modelo: PasswordReset
+// ======================================================================
+// Maneja solicitudes de recuperación de contraseña (códigos temporales).
+model PasswordReset {
+  id        Int       @id @default(autoincrement()) // PK autoincremental
+  userId    Int                                     
+  code      String    // código de 6 dígitos
+  expiresAt DateTime  // fecha de expiración del código
+  usedAt    DateTime? // marca cuándo se usó
+  createdAt DateTime  @default(now()) // timestamp de creación
+  ip        String?   // IP opcional del que pidió reset
+
+  // Relación con User
+  user      User     @relation(fields: [userId], references: [id])
+
+  // Índice combinado para búsquedas rápidas
+  @@index([userId, code])
+}

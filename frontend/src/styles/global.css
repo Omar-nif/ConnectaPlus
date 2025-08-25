@@ -1,0 +1,218 @@
+/* =========================================
+   Connecta+ — Global Styles (Desktop-first)
+   Usa Bootstrap como base
+   ========================================= */
+
+/* (Opcional) Tipografía base: Inter */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* -------------------------
+   1) Variables de marca
+-------------------------- */
+:root{
+  --c-primary: #2563eb;      /* azul principal */
+  --c-primary-600:#1e54c9;
+  --c-primary-700:#1946a8;
+  --c-accent:  #10b981;      /* verde acento */
+  --c-text:    #0f172a;      /* slate-900 */
+  --c-muted:   #64748b;      /* slate-500/600 */
+  --c-bg:      #f8fafc;      /* fondo claro */
+  --c-panel:   #ffffff;
+  --c-border:  #e5e7eb;
+
+  --radius:    14px;
+  --shadow-sm: 0 4px 12px rgba(2,6,23,.06);
+  --shadow-md: 0 10px 26px rgba(2,6,23,.10);
+}
+
+/* -------------------------
+   2) Base y resets
+-------------------------- */
+html { scroll-behavior: smooth; }
+* { box-sizing: border-box; }
+body{
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: var(--c-text);
+  background: var(--c-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.container { max-width: 1160px; }
+
+/* 🔧 Fix anti-overflow global (elimina hueco a la derecha) */
+.site, html, body { width: 100%; max-width: 100%; overflow-x: hidden !important; }
+.container, .container-fluid { overflow-x: hidden; }
+.row { margin-left: 0 !important; margin-right: 0 !important; }
+img, svg, video, canvas, iframe { max-width: 100%; height: auto; display: block; }
+
+/* Enfasis accesible */
+a:focus, button:focus {
+  outline: none;
+  box-shadow: 0 0 0 .18rem rgba(37,99,235,.25) !important;
+}
+
+/* -------------------------
+   3) Navbar
+-------------------------- */
+.navbar{
+  background: rgba(255,255,255,.9) !important;
+  backdrop-filter: saturate(120%) blur(6px);
+  border-bottom: 1px solid var(--c-border);
+}
+.navbar .navbar-brand{ letter-spacing: .2px; }
+.navbar .nav-link{
+  color:#475569;            /* slate-600 */
+  font-weight:500;
+  padding:.75rem 1rem;
+  transition: color .15s ease, opacity .15s ease;
+}
+.navbar .nav-link:hover{ color:var(--c-primary); }
+.navbar .btn{ border-radius:999px; padding:.55rem 1rem; }
+
+/* -------------------------
+   4) Hero colorido + wave
+-------------------------- */
+section.bg-white.border-bottom:first-of-type{
+  position: relative;
+  background: linear-gradient(135deg, #2563eb 0%, #3b82f6 50%, #60a5fa 100%);
+  color: #fff;
+  overflow: hidden;
+}
+section.bg-white.border-bottom:first-of-type h1,
+section.bg-white.border-bottom:first-of-type .lead,
+section.bg-white.border-bottom:first-of-type .text-secondary{
+  color:#fff !important;
+}
+section.bg-white.border-bottom:first-of-type .badge.text-bg-primary{
+  background:#0ea5e9 !important;  /* cyan */
+}
+section.bg-white.border-bottom:first-of-type .btn-outline-primary{
+  color:#fff; border-color:#fff;
+}
+section.bg-white.border-bottom:first-of-type .btn-outline-primary:hover{
+  background:#fff; color:#2563eb;
+}
+/* Wave decorativa inferior */
+section.bg-white.border-bottom:first-of-type::after{
+  content:""; position:absolute; left:0; right:0; bottom:-1px; height:100px;
+  background:
+    radial-gradient(90% 60% at 10% 140%, rgba(255,255,255,.35) 0, rgba(255,255,255,0) 60%),
+    radial-gradient(90% 60% at 90% 150%, rgba(255,255,255,.35) 0, rgba(255,255,255,0) 60%),
+    linear-gradient(180deg, rgba(255,255,255,0) 0%, #ffffff 95%);
+}
+
+/* Reposicionamiento hero */
+.hero { padding-top: 72px; padding-bottom: 64px; }
+.hero .row { align-items: center; justify-content: space-between; }
+.hero-mock { max-width: 460px; box-shadow: var(--shadow-sm); }
+
+/* -------------------------
+   5) Enlaces de ancla (fila bajo el hero)
+-------------------------- */
+.link-primary{
+  font-weight:600; text-decoration:none; border-bottom:2px solid transparent;
+  color:#e5edff;
+}
+.link-primary:hover{ color:#ffffff; border-color:#ffffff; }
+
+/* -------------------------
+   6) Secciones alternadas
+-------------------------- */
+section{ scroll-margin-top: 84px; }
+#como, #seguridad { background:#f9fafb; }
+#plataformas, #precios, #faq { background:#fff; }
+
+/* Juegos P2P con degradado */
+#juegos{
+  background: linear-gradient(120deg, #1e3a8a, #2563eb, #3b82f6);
+  color:#fff;
+}
+#juegos h2, #juegos ul, #juegos strong{ color:#fff; }
+#juegos .ratio{ border-color: rgba(255,255,255,.35) !important; }
+#juegos a.btn-primary{ background:#fff; color:#2563eb; border:none; }
+#juegos a.btn-primary:hover{ background:#f1f5f9; color:#1e3a8a; }
+
+/* -------------------------
+   7) Tarjetas y badges
+-------------------------- */
+.card{
+  border:1px solid var(--c-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  transition: transform .15s ease, box-shadow .2s ease;
+  background: var(--c-panel);
+}
+.card:hover{ transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.card .card-body h5, .card .card-body h6{ letter-spacing:.2px; }
+
+.badge.text-bg-light.border{
+  border-color: var(--c-border) !important;
+  background-color:#f9fafb !important;
+}
+
+/* -------------------------
+   8) Botones
+-------------------------- */
+.btn{ border-radius:12px; }
+.btn-primary{ background: var(--c-primary); border-color: var(--c-primary); }
+.btn-primary:hover{ background: var(--c-primary-600); border-color: var(--c-primary-600); }
+.btn-outline-primary{ color: var(--c-primary); border-color: var(--c-primary); }
+.btn-outline-primary:hover{
+  background: rgba(37,99,235,.08);
+  color: var(--c-primary-700);
+  border-color: var(--c-primary);
+}
+
+/* -------------------------
+   9) Media / mockups
+-------------------------- */
+.ratio.border.rounded-3.bg-light{
+  border-color: var(--c-border) !important;
+  box-shadow: var(--shadow-sm);
+}
+
+/* -------------------------
+   10) Listas, tablas, FAQ
+-------------------------- */
+ul{ padding-left:1.1rem; }
+.table{ border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); }
+.table thead th{ background:#f3f4f6; color:#334155; font-weight:700; }
+
+.accordion-item{
+  border:1px solid var(--c-border);
+  border-radius: var(--radius) !important;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+.accordion-button{ padding:1rem 1.25rem; font-weight:600; }
+.accordion-button:not(.collapsed){ color: var(--c-primary); background-color:#f8fafc; }
+.accordion-button:focus{ box-shadow: 0 0 0 .2rem rgba(37,99,235,.15); }
+
+/* -------------------------
+   11) Tipografía utilitaria
+-------------------------- */
+.display-5{ letter-spacing:-.2px; }
+.lead{ color: var(--c-muted); }
+.text-secondary{ color: var(--c-muted) !important; }
+
+/* -------------------------
+   12) Footer
+-------------------------- */
+footer{
+  background: linear-gradient(180deg, #ffffff 0%, #f9fafb 100%);
+  border-top:1px solid var(--c-border);
+}
+footer a{ color:#64748b; text-decoration:none; }
+footer a:hover{ color:var(--c-primary); }
+
+/* -------------------------
+   13) Utilidades
+-------------------------- */
+.shadow-soft{ box-shadow: var(--shadow-sm) !important; }
+.rounded-xl{ border-radius: 18px !important; }
+.maxw-1160{ max-width: 1160px !important; }
+
+/* -------------------------
+   14) Selección de texto
+-------------------------- */
+::selection{ background: rgba(37,99,235,.18); }

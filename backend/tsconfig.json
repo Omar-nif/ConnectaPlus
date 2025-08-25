@@ -1,0 +1,55 @@
+{
+  // Visit https://aka.ms/tsconfig to read more about this file
+  "compilerOptions": {
+    /* ===========================
+       File Layout
+    ============================ */
+    "rootDir": "src",
+    "outDir": "dist",
+
+    /* ===========================
+       Environment Settings
+    ============================ */
+    "target": "ES2020",
+    "module": "CommonJS",
+    "lib": ["ESNext"],
+    "types": ["node"],
+
+    /* ===========================
+       Other Outputs
+    ============================ */
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+
+    /* ===========================
+       Type Checking
+    ============================ */
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+
+    /* ===========================
+       Style / Safety
+    ============================ */
+    // "noImplicitReturns": true,
+    // "noImplicitOverride": true,
+    // "noUnusedLocals": true,
+    // "noUnusedParameters": true,
+    // "noFallthroughCasesInSwitch": true,
+    // "noPropertyAccessFromIndexSignature": true,
+
+    /* ===========================
+       Module Resolution
+    ============================ */
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+
+    // 👇 FIX: evita el error de imports ES en CommonJS
+    "verbatimModuleSyntax": false,
+    "moduleDetection": "force"
+  }
+}

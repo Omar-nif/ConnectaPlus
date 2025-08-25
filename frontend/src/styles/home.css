@@ -1,0 +1,73 @@
+/* ===============================
+   Connecta+ — Home styles (Desktop)
+   =============================== */
+
+/* Utilidades de color sobre fondo oscuro */
+.text-white-70 { color: rgba(255,255,255,.75); }
+.bg-white-08   { background: rgba(255,255,255,.08); }
+
+/* Wrapper principal */
+.home { background: var(--c-bg); }
+
+/* HERO del Home: mismo lenguaje que la landing, pero más intenso */
+.home-hero{
+  padding: 56px 0;
+  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #3b82f6 100%);
+  color:#fff;
+  border-bottom: 1px solid var(--c-border);
+}
+.home-hero .badge.text-bg-primary{
+  background:#0ea5e9 !important;
+}
+.home-hero .btn{
+  border-radius: 12px;
+}
+.home-hero .btn-outline-light{
+  color:#fff; border-color:#fff;
+}
+.home-hero .btn-outline-light:hover{
+  background:#fff; color:#2563eb;
+}
+.home-hero .home-hero-mock{
+  border-color: rgba(255,255,255,.35) !important;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Atajos (chips) */
+.home-quick{
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
+.home-chip{
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.14);
+  color:#fff;
+  border: 1px solid rgba(255,255,255,.28);
+  text-decoration: none;
+  font-weight: 600;
+  transition: transform .15s ease, background .15s ease;
+}
+.home-chip:hover{ transform: translateY(-1px); background: rgba(255,255,255,.2); }
+
+/* Tarjetas */
+.card{
+  border:1px solid var(--c-border);
+  border-radius: var(--radius);
+  background: var(--c-panel);
+  box-shadow: var(--shadow-sm);
+  transition: transform .15s ease, box-shadow .2s ease;
+}
+.card:hover{ transform: translateY(-2px); box-shadow: var(--shadow-md); }
+
+/* Tablas */
+.table thead th{
+  background:#f3f4f6; color:#334155; font-weight:700;
+}
+
+/* Contenedor consistente con la landing */
+.container { max-width: var(--container); }

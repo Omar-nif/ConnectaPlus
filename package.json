@@ -1,0 +1,24 @@
+{
+  "dependencies": {
+    "react-router-dom": "^7.8.1"
+  },
+  "name": "connectaplus",
+  "version": "1.0.0",
+  "description": "**Connecta+** es una plataforma web y sistema P2P que permite a los usuarios **compartir suscripciones digitales** (streaming, música, software) y **jugar videojuegos de forma remota** transmitiendo solo la ventana del juego, con **pagos protegidos, reputación y seguridad integrada**.",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MrLedezma/ConnectaPlus.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MrLedezma/ConnectaPlus/issues"
+  },
+  "homepage": "https://github.com/MrLedezma/ConnectaPlus#readme"
+}
