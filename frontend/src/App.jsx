@@ -1,5 +1,5 @@
 // App.jsx
-import { Routes, Route, useLocation } from 'react-router-dom'
+import { Routes, Route, useLocation, Navigate } from 'react-router-dom'
 import { useEffect } from 'react'
 
 import Landing from './pages/Landing'
@@ -11,9 +11,9 @@ import HomePage from './pages/HomePage'
 import Groups from './pages/Groups'
 import GroupNew from './pages/GroupNew'
 import GroupDetail from './pages/GroupDetail'
-import Terms from './pages/Terms'        // ← nuevo
-import Privacy from './pages/Privacy'    // ← nuevo
-
+import ExploreGroups from './pages/ExploreGroups'
+import Terms from './pages/Terms'        
+import Privacy from './pages/Privacy'    
 import ProtectedRoute from './components/ProtectedRoute'
 
 function ScrollToTop() {
@@ -66,6 +66,22 @@ export default function App() {
           element={
             <ProtectedRoute>
               <GroupDetail />
+            </ProtectedRoute>
+          }
+        />
+        <Route 
+          path="/explore-groups"
+          element={
+            <ProtectedRoute>
+              <ExploreGroups />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/explore"
+          element={
+            <ProtectedRoute>
+              <Navigate to="/explore-groups" replace />
             </ProtectedRoute>
           }
         />

@@ -11,6 +11,7 @@ import pino from 'pino-http'
 
 // Rutas de módulos
 import authRoutes from './modules/auth/auth.routes'
+import servicesRoutes from './services/services.routes'
 
 const app = express()
 
@@ -40,14 +41,9 @@ app.get('/', (_req: Request, res: Response) => {
 
 // ====== Rutas API v1 ======
 app.use('/api/auth', authRoutes)
+app.use('/api/services', servicesRoutes)
 
 // Export para usar en server.ts
 export default app
 
-// ===============================
-// Notas / Mejores prácticas
-// ===============================
-// - Puedes añadir rate limiter (ej: express-rate-limit) en /api/*
-// - Usa Helmet para seguridad (headers).
-// - Monta tus módulos versionados: /api/v1/auth, /api/v1/users, etc.
-// - Considera un middleware global de manejo de errores.
+
