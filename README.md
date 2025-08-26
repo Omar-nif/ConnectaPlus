@@ -4,7 +4,7 @@
 
 ---
 
-## 📌 Propósito
+## Propósito
 
 El proyecto tiene dos grandes módulos:
 
@@ -24,7 +24,7 @@ El proyecto tiene dos grandes módulos:
 
 ---
 
-## 🛠️ Tecnologías
+## Tecnologías
 
 ### Frontend
 - React + React Router + Bootstrap 5
@@ -49,7 +49,7 @@ El proyecto tiene dos grandes módulos:
 
 ---
 
-## ⚙️ Instalación y uso
+## Instalación y uso
 
 ### Requisitos
 - Node.js v18+

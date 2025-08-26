@@ -35,7 +35,7 @@ app.use(pino())
 
 // ====== Health check ======
 app.get('/', (_req: Request, res: Response) => {
-  res.json({ message: '✅ Connecta+ Backend funcionando 🚀' })
+  res.json({ message: 'Connecta+ Backend funcionando' })
 })
 
 // ====== Rutas API v1 ======
