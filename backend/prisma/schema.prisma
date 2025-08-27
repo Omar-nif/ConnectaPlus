@@ -1,7 +1,6 @@
 // ======================================================================
 // Generador de cliente
 // ======================================================================
-// Prisma genera un cliente tipado de JS/TS para interactuar con la BD.
 generator client {
   provider = "prisma-client-js"
 }
@@ -9,44 +8,45 @@ generator client {
 // ======================================================================
 // Conexión a la base de datos
 // ======================================================================
-// Configuración de la fuente de datos (PostgreSQL en este caso).
-// La URL se define en .env (DATABASE_URL).
 datasource db {
-  provider = "postgresql" // puedes usar "mysql" o "sqlite" según tu BD
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 // ======================================================================
 // Modelo: User
 // ======================================================================
-// Representa a los usuarios de la aplicación.
 model User {
-  id        Int              @id @default(autoincrement()) // PK autoincremental
-  email     String           @unique                      // único por usuario
-  name      String?                                         // opcional
-  password  String                                         // contraseña hasheada
-  createdAt DateTime         @default(now())               // fecha creación
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
+  name      String?
+  password  String
+  createdAt DateTime  @default(now())
 
-  // Relación: un usuario puede tener varios PasswordReset
-  resets    PasswordReset[]
+  // Relación con grupos (dueño)
+  groups    Group[]
 }
 
 // ======================================================================
-// Modelo: PasswordReset
+// Modelo: Group
 // ======================================================================
-// Maneja solicitudes de recuperación de contraseña (códigos temporales).
-model PasswordReset {
-  id        Int       @id @default(autoincrement()) // PK autoincremental
-  userId    Int                                     
-  code      String    // código de 6 dígitos
-  expiresAt DateTime  // fecha de expiración del código
-  usedAt    DateTime? // marca cuándo se usó
-  createdAt DateTime  @default(now()) // timestamp de creación
-  ip        String?   // IP opcional del que pidió reset
 
-  // Relación con User
-  user      User     @relation(fields: [userId], references: [id])
+model Group {
+  id             Int      @id @default(autoincrement())
+  ownerId        Int
+  platformKey    String    // "spotify" | "disney" | ...
+  platformName   String    // Ej: "Spotify Premium · Familiar"
+  planKey        String?   // Ej: "family" (nullable si no aplica)
+  basePriceMXN   Int       // precio base mensual en MXN
+  slots          Int       // cupos totales (4–8)
+  pricePerMember Int       // MXN por integrante (derivado en FE, guardado aquí)
+  credentials    String    // texto plano (por ahora)
+  notes          String?   // nota del dueño
+  status         String    @default("active") // "active" | "paused"
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
 
-  // Índice combinado para búsquedas rápidas
-  @@index([userId, code])
+  owner          User      @relation(fields: [ownerId], references: [id])
+
+  @@index([ownerId])
 }
