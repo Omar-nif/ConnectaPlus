@@ -4,27 +4,31 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 
 export default function ExploreGroups() {
-  const peliculasYSeries = [
-    { name: 'Netflix', desc: 'Series y películas' },
-    { name: 'Amazon Prime Video', desc: 'Películas y TV' },
-    { name: 'Paramount+', desc: 'Películas y TV' },
-    { name: 'Apple TV+', desc: 'Series y películas' },
-  ]
 
-  const programas = [
-    { name: 'Microsoft 365', desc: 'Ofimática y productividad' },
-    { name: 'Google One', desc: 'Almacenamiento y servicios Google' },
-    { name: 'Dropbox', desc: 'Almacenamiento en la nube' },
-    { name: 'Canva', desc: 'Diseño gráfico y plantillas' },
-  ]
+  // Películas y series
+const peliculasYSeries = [
+  { slug: 'netflix',            name: 'Netflix',             desc: 'Series y películas' },
+  { slug: 'prime-video',        name: 'Amazon Prime Video',  desc: 'Películas y TV' },
+  { slug: 'paramount-plus',     name: 'Paramount+',          desc: 'Películas y TV' },
+  { slug: 'apple-tv-plus',      name: 'Apple TV+',           desc: 'Series y películas' },
+]
 
-  const musica = [
-    { name: 'Apple Music', desc: 'Streaming de música' },
-    { name: 'Spotify', desc: 'Música sin anuncios' },
-    { name: 'Tidal', desc: 'Audio en alta fidelidad' },
-    { name: 'Deezer', desc: 'Música y podcasts' },
-    { name: 'Amazon Music Unlimited', desc: 'Catálogo completo de Amazon' },
-  ]
+// Programas
+const programas = [
+  { slug: 'microsoft-365',      name: 'Microsoft 365',       desc: 'Ofimática y productividad' },
+  { slug: 'google-one',         name: 'Google One',          desc: 'Almacenamiento y servicios Google' },
+  { slug: 'dropbox',            name: 'Dropbox',             desc: 'Almacenamiento en la nube' },
+  { slug: 'canva',              name: 'Canva',               desc: 'Diseño gráfico y plantillas' },
+]
+
+// Música
+const musica = [
+  { slug: 'apple-music',            name: 'Apple Music',            desc: 'Streaming de música' },
+  { slug: 'spotify',                name: 'Spotify',                desc: 'Música sin anuncios' },
+  { slug: 'tidal',                  name: 'Tidal',                  desc: 'Audio en alta fidelidad' },
+  { slug: 'deezer',                 name: 'Deezer',                 desc: 'Música y podcasts' },
+  { slug: 'amazon-music-unlimited', name: 'Amazon Music Unlimited', desc: 'Catálogo completo de Amazon' },
+]
 
   const Section = ({ id, title, subtitle, items }) => (
     <section id={id} className="py-5 bg-white border-top">
@@ -44,8 +48,7 @@ export default function ExploreGroups() {
                   </div>
                   <p className="text-secondary mt-2 mb-3">{p.desc}</p>
                   <div className="d-flex gap-2">
-                    
-                    <Link to="#" onClick={(e)=>e.preventDefault()} className="btn btn-primary btn-sm">Unirme</Link>
+                    <Link to={`/services/${p.slug}/groups`} className="btn btn-primary btn-sm">Ver grupos</Link>
                   </div>
                 </div>
               </div>

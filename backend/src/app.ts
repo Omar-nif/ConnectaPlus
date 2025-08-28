@@ -21,8 +21,6 @@ app.get("/", (_req: Request, res: Response) => {
   res.json({ message: "Connecta+ Backend funcionando 🚀" });
 });
 
-app.use("/api/auth", authRoutes);
-app.use("/api/groups", groupRoutes); // 👈 monta grupos
 
 // ====== Logger ======
 // pino-http: log compacto, útil para debug y monitoreo
@@ -34,8 +32,9 @@ app.get('/', (_req: Request, res: Response) => {
 })
 
 // ====== Rutas API v1 ======
-app.use('/api/auth', authRoutes)
-app.use('/api/services', servicesRoutes)
+app.use('/api/services', servicesRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/groups", groupRoutes); 
 
 // Export para usar en server.ts
 export default app

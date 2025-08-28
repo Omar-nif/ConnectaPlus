@@ -1,52 +1,36 @@
-// ======================================================================
-// Generador de cliente
-// ======================================================================
 generator client {
   provider = "prisma-client-js"
 }
 
-// ======================================================================
-// Conexión a la base de datos
-// ======================================================================
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-// ======================================================================
-// Modelo: User
-// ======================================================================
 model User {
-  id        Int       @id @default(autoincrement())
-  email     String    @unique
+  id        Int      @id @default(autoincrement())
   name      String?
+  email     String   @unique
   password  String
-  createdAt DateTime  @default(now())
-
-  // Relación con grupos (dueño)
+  createdAt DateTime @default(now())
   groups    Group[]
 }
-
-// ======================================================================
-// Modelo: Group
-// ======================================================================
 
 model Group {
   id             Int      @id @default(autoincrement())
   ownerId        Int
-  platformKey    String    // "spotify" | "disney" | ...
-  platformName   String    // Ej: "Spotify Premium · Familiar"
-  planKey        String?   // Ej: "family" (nullable si no aplica)
-  basePriceMXN   Int       // precio base mensual en MXN
-  slots          Int       // cupos totales (4–8)
-  pricePerMember Int       // MXN por integrante (derivado en FE, guardado aquí)
-  credentials    String    // texto plano (por ahora)
-  notes          String?   // nota del dueño
-  status         String    @default("active") // "active" | "paused"
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
-
-  owner          User      @relation(fields: [ownerId], references: [id])
+  platformKey    String
+  platformName   String
+  planKey        String?
+  basePriceMXN   Int
+  slots          Int
+  pricePerMember Int
+  credentials    String
+  notes          String?
+  status         String   @default("active")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  owner          User     @relation(fields: [ownerId], references: [id])
 
   @@index([ownerId])
 }

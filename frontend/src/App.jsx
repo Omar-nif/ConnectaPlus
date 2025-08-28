@@ -12,6 +12,7 @@ import Groups from './pages/Groups'
 import GroupNew from './pages/GroupNew'
 import GroupDetail from './pages/GroupDetail'
 import ExploreGroups from './pages/ExploreGroups'
+import ServiceGroups from './pages/ServiceGroups'
 import Terms from './pages/Terms'        
 import Privacy from './pages/Privacy'    
 import ProtectedRoute from './components/ProtectedRoute'
@@ -82,6 +83,14 @@ export default function App() {
           element={
             <ProtectedRoute>
               <Navigate to="/explore-groups" replace />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/services/:slug/groups"
+          element={
+            <ProtectedRoute>
+              <ServiceGroups />
             </ProtectedRoute>
           }
         />
