@@ -9,7 +9,7 @@ export default function ExploreGroups() {
 const peliculasYSeries = [
   { slug: 'netflix',            name: 'Netflix',             desc: 'Series y películas' },
   { slug: 'prime-video',        name: 'Amazon Prime Video',  desc: 'Películas y TV' },
-  { slug: 'paramount-plus',     name: 'Paramount+',          desc: 'Películas y TV' },
+  { slug: 'paramount',     name: 'Paramount+',          desc: 'Películas y TV' },
   { slug: 'apple-tv-plus',      name: 'Apple TV+',           desc: 'Series y películas' },
 ]
 

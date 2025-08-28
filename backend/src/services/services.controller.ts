@@ -54,7 +54,7 @@ export async function listGroupsByService(req: Request<{ slug: string }>, res: R
       const p = verifyAccess(token)
       currentUserId = Number(p.sub) || null
     } catch {
-      // token inválido → lo ignoramos; se mostrará lista pública
+      // token inválido, se mostrará lista pública
     }
   }
 
@@ -80,7 +80,7 @@ export async function listGroupsByService(req: Request<{ slug: string }>, res: R
   })
 
   const data = rows.map(g => {
-    // Update calculation to work with Int values
+    
     const computedUnit = Math.round((g.pricePerMember ?? 0) * 1.2)
     return {
       id: g.id,
