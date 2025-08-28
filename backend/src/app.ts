@@ -1,25 +1,37 @@
-import express, { Request, Response } from "express";
-import cors from "cors";
-import pino from "pino-http";
-import authRoutes from "./modules/auth/auth.routes";
-import groupRoutes from "./modules/groups/groups.routes"; // 👈
+import express, { Request, Response } from 'express'
+import cors from 'cors'
+import pino from 'pino-http'
 
-const app = express();
+// Rutas de módulos
+import authRoutes from './modules/auth/auth.routes'
+import paymentRouter from "./routes/payment";
 
-app.use(cors({
-  origin: ["http://localhost:5173"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-}));
+// Primero declaramos app
+const app = express()
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(pino());
+// ====== CORS ======
+app.use(
+  cors({
+    origin: ['http://localhost:5173'], 
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  })
+)
 
-app.get("/", (_req: Request, res: Response) => {
-  res.json({ message: "Connecta+ Backend funcionando 🚀" });
-});
+// ====== Body parsers ======
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
-app.use("/api/auth", authRoutes);
-app.use("/api/groups", groupRoutes); // 👈 monta grupos
+// ====== Logger ======
+app.use(pino())
 
-export default app;
+// ====== Health check ======
+app.get('/', (_req: Request, res: Response) => {
+  res.json({ message: 'Connecta+ Backend funcionando' })
+})
+
+// ====== Rutas API v1 ======
+app.use('/api/auth', authRoutes)
+app.use("/api/payment", paymentRouter) 
+
+// Export para usar en server.ts
+export default app
