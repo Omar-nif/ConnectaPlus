@@ -44,8 +44,7 @@ export default function ExploreGroups() {
                   </div>
                   <p className="text-secondary mt-2 mb-3">{p.desc}</p>
                   <div className="d-flex gap-2">
-                    {/* Rutas pendientes por requerimiento */}
-                    <Link to="#" onClick={(e)=>e.preventDefault()} className="btn btn-outline-primary btn-sm">Compartir</Link>
+                    
                     <Link to="#" onClick={(e)=>e.preventDefault()} className="btn btn-primary btn-sm">Unirme</Link>
                   </div>
                 </div>
@@ -70,8 +69,9 @@ export default function ExploreGroups() {
               Descubre todos los servicios disponibles y únete a un grupo. (Acciones por servicio: pendientes)
             </p>
             <div className="d-flex gap-2 mt-3">
-              <a href="/groups/new" className="btn btn-primary">Crear grupo</a>
-              <a href="/groups" className="btn btn-outline-secondary">Mis grupos</a>
+              <Link to="/home" className="btn btn-outline-secondary">
+                ← Regresar
+              </Link>
             </div>
           </div>
         </section>
