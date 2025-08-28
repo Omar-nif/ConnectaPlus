@@ -1,22 +1,28 @@
-// backend/src/modules/auth.routes.ts
+// ======================================================================
+// Auth Routes (sin endpoints de recuperación)
+// - Mantiene /register, /login, /me
+// ======================================================================
+
 import { Router, Response } from "express";
-import { register, login, forgot, verifyCode, resetPassword } from "./auth.controller";
+import { register, login } from "./auth.controller";     // ← sólo registro/login
 import { requireAuth, AuthedRequest } from "../../middlewares/auth";
 import { prisma } from "../../lib/prisma";
 import { ok } from "../../utils/http";
 
 const router = Router();
 
-/* ----------------------------- Rutas públicas ----------------------------- */
-router.post("/register", register);   // Registro
-router.post("/login",    login);      // Login
+// ----------------------------------------------------------------------
+// Rutas públicas
+// ----------------------------------------------------------------------
+router.post("/register", register);
+router.post("/login",    login);
 
-/* ---------------------- Recuperación de contraseña ------------------------ */
-router.post("/forgot",   forgot);       // Solicitar código (ciego)
-router.post("/verify",   verifyCode);   // Verificar código
-router.post("/reset",    resetPassword);// Resetear contraseña
+// (Eliminadas) /forgot, /verify, /reset
 
-/* ----------------------------- Ruta protegida ----------------------------- */
+// ----------------------------------------------------------------------
+// GET /api/auth/me (protegida)
+// - Devuelve info básica del usuario autenticado
+// ----------------------------------------------------------------------
 router.get("/me", requireAuth, async (req: AuthedRequest, res: Response) => {
   const user = await prisma.user.findUnique({
     where: { id: Number(req.user!.id) },

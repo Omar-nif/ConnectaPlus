@@ -1,34 +1,28 @@
-// app.ts
-// ===============================
-// Configuración principal de la app Express
-// - Middlewares globales (CORS, body parsers, logger)
-// - Rutas base (salud y módulos)
-// ===============================
+import express, { Request, Response } from "express";
+import cors from "cors";
+import pino from "pino-http";
+import groupRoutes from "./modules/groups/groups.routes"; // 👈
 
-import express, { Request, Response } from 'express'
-import cors from 'cors'
-import pino from 'pino-http'
+const app = express();
 
 // Rutas de módulos
 import authRoutes from './modules/auth/auth.routes'
 import servicesRoutes from './services/services.routes'
+app.use(cors({
+  origin: ["http://localhost:5173"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+}));
 
-const app = express()
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(pino());
 
-// ====== CORS ======
-// Permite que el frontend (ej: Vite en :5173) hable con el backend.
-// ⚠️ En producción, cambia origin a tu dominio real.
-app.use(
-  cors({
-    origin: ['http://localhost:5173'], 
-    allowedHeaders: ['Content-Type', 'Authorization'],
-  })
-)
+app.get("/", (_req: Request, res: Response) => {
+  res.json({ message: "Connecta+ Backend funcionando 🚀" });
+});
 
-// ====== Body parsers ======
-// Soporte JSON y x-www-form-urlencoded
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+app.use("/api/auth", authRoutes);
+app.use("/api/groups", groupRoutes); // 👈 monta grupos
 
 // ====== Logger ======
 // pino-http: log compacto, útil para debug y monitoreo
