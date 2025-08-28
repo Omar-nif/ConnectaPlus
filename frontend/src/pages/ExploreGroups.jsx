@@ -69,7 +69,7 @@ const musica = [
           <div className="container">
             <h1 className="fw-bold">Explorar grupos</h1>
             <p className="text-secondary m-0">
-              Descubre todos los servicios disponibles y únete a un grupo. (Acciones por servicio: pendientes)
+              Descubre todos los servicios disponibles y únete a un grupo.
             </p>
             <div className="d-flex gap-2 mt-3">
               <Link to="/home" className="btn btn-outline-secondary">
