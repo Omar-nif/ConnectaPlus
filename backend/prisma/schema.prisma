@@ -17,14 +17,17 @@ datasource db {
 // Modelo: User
 // ======================================================================
 model User {
-  id        Int       @id @default(autoincrement())
-  email     String    @unique
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
   name      String?
   password  String
-  createdAt DateTime  @default(now())
+  createdAt DateTime @default(now())
 
   // Relación con grupos (dueño)
-  groups    Group[]
+  groups Group[]
+
+  // Relación con pagos
+  payments Payment[]
 }
 
 // ======================================================================
@@ -34,19 +37,44 @@ model User {
 model Group {
   id             Int      @id @default(autoincrement())
   ownerId        Int
-  platformKey    String    // "spotify" | "disney" | ...
-  platformName   String    // Ej: "Spotify Premium · Familiar"
-  planKey        String?   // Ej: "family" (nullable si no aplica)
-  basePriceMXN   Int       // precio base mensual en MXN
-  slots          Int       // cupos totales (4–8)
-  pricePerMember Int       // MXN por integrante (derivado en FE, guardado aquí)
-  credentials    String    // texto plano (por ahora)
-  notes          String?   // nota del dueño
-  status         String    @default("active") // "active" | "paused"
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  platformKey    String // "spotify" | "disney" | ...
+  platformName   String // Ej: "Spotify Premium · Familiar"
+  planKey        String? // Ej: "family" (nullable si no aplica)
+  basePriceMXN   Int // precio base mensual en MXN
+  slots          Int // cupos totales (4–8)
+  pricePerMember Int // MXN por integrante (derivado en FE, guardado aquí)
+  credentials    String // texto plano (por ahora)
+  notes          String? // nota del dueño
+  status         String   @default("active") // "active" | "paused"
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
-  owner          User      @relation(fields: [ownerId], references: [id])
+  owner User @relation(fields: [ownerId], references: [id])
+
+  // Relación con pagos
+  payments Payment[]
 
   @@index([ownerId])
+}
+
+// ======================================================================
+// Modelo: Payment
+// ======================================================================
+model Payment {
+  id                    Int      @id @default(autoincrement())
+  userId                Int
+  groupId               Int?
+  stripePaymentIntentId String   @unique
+  amount                Int // en centavos (ej: 1000 = $10.00)
+  currency              String   @default("mxn")
+  status                String   @default("pending") // "pending" | "succeeded" | "failed"
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  // Relaciones
+  user  User   @relation(fields: [userId], references: [id])
+  group Group? @relation(fields: [groupId], references: [id])
+
+  @@index([userId])
+  @@index([groupId])
 }

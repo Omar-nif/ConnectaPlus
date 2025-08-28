@@ -1,13 +1,13 @@
 import express, { Request, Response } from 'express'
 import cors from 'cors'
 import pino from 'pino-http'
-
-// Rutas de módulos
+import webhookRouter from "./routes/webhook";
 import authRoutes from './modules/auth/auth.routes'
 import paymentRouter from "./routes/payment";
 
-// Primero declaramos app
 const app = express()
+
+app.use("/webhook", webhookRouter);
 
 // ====== CORS ======
 app.use(

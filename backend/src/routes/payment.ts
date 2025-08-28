@@ -1,29 +1,41 @@
-import { Router, Request, Response } from "express";
+// backend/src/routes/payment.ts
+import express, { Request, Response } from "express";
 import stripe from "../stripe";
+import { PrismaClient } from "@prisma/client";
 
-const router = Router();
+const router = express.Router();
+const prisma = new PrismaClient();
 
-interface PaymentRequestBody {
-  amount: number;
-}
-
-router.post("/create-payment-intent", async (req: Request<{}, {}, PaymentRequestBody>, res: Response) => {
+router.post("/create-payment-intent", async (req: Request, res: Response) => {
   try {
-    const { amount } = req.body;
+    const { userId, groupId, amount } = req.body; // datos que envía el front
 
+    // Crear el paymentIntent en Stripe
     const paymentIntent = await stripe.paymentIntents.create({
-      amount, // en centavos
-      currency: "usd",
+      amount,
+      currency: "mxn",
     });
 
+    // Guardar en base de datos
+    const payment = await prisma.payment.create({
+      data: {
+        userId,
+        groupId,
+        amount,
+        currency: "mxn",
+        stripePaymentIntentId: paymentIntent.id,
+        status: "pending",
+      },
+    });
+
+    // Devolver al front el client_secret
     res.send({
       clientSecret: paymentIntent.client_secret,
+      paymentId: payment.id,
     });
-
-  } catch (error: any) { 
-    res.status(500).json({
-      error: error.message
-    });
+  } catch (error: any) {
+    console.error(error);
+    res.status(500).json({ error: error.message });
   }
 });
 
