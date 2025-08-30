@@ -27,8 +27,11 @@ model User {
   password  String                                  // Hash de contraseña
   createdAt DateTime @default(now())                // Fecha de creación
 
-  // Relación con grupos donde es dueño
   groups    Group[]
+  groups Group[]
+  // Relación con pagos
+  payments Payment[]
+
 }
 
 // ======================================================================
@@ -42,6 +45,8 @@ model Group {
 
   ownerId        Int                                     // FK a User
   owner          User     @relation(fields: [ownerId], references: [id])
+  // Relación con pagos
+  payments Payment[]
 
   platformKey    String                                   // Ej: "spotify", "disney"
   platformName   String                                   // Ej: "Spotify Premium · Familiar"
@@ -59,4 +64,26 @@ model Group {
   updatedAt      DateTime @updatedAt                      // Timestamp auto-update
 
   @@index([ownerId]) // Índice para filtrar por dueño rápidamente
+}
+
+// ======================================================================
+// Modelo: Payment
+// ======================================================================
+model Payment {
+  id                    Int      @id @default(autoincrement())
+  userId                Int
+  groupId               Int?
+  stripePaymentIntentId String   @unique
+  amount                Int // en centavos (ej: 1000 = $10.00)
+  currency              String   @default("mxn")
+  status                String   @default("pending") // "pending" | "succeeded" | "failed"
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  // Relaciones
+  user  User   @relation(fields: [userId], references: [id])
+  group Group? @relation(fields: [groupId], references: [id])
+
+  @@index([userId])
+  @@index([groupId])
 }

@@ -2,8 +2,11 @@ import express, { Request, Response } from "express";
 import cors from "cors";
 import pino from "pino-http";
 import groupRoutes from "./modules/groups/groups.routes"; // 👈
+import webhookRouter from "./routes/webhook";
+import authRoutes from './modules/auth/auth.routes'
+import paymentRouter from "./routes/payment";
 
-const app = express();
+const app = express()
 
 // Rutas de módulos
 import authRoutes from './modules/auth/auth.routes'
@@ -12,14 +15,19 @@ app.use(cors({
   origin: ["http://localhost:5173"],
   allowedHeaders: ["Content-Type", "Authorization"],
 }));
+app.use("/webhook", webhookRouter);
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(pino());
+// ====== CORS ======
+app.use(
+  cors({
+    origin: ['http://localhost:5173'], 
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  })
+)
 
-app.get("/", (_req: Request, res: Response) => {
-  res.json({ message: "Connecta+ Backend funcionando 🚀" });
-});
+// ====== Body parsers ======
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
 
 // ====== Logger ======
@@ -40,3 +48,7 @@ app.use("/api/groups", groupRoutes);
 export default app
 
 
+app.use("/api/payment", paymentRouter) 
+
+// Export para usar en server.ts
+export default app

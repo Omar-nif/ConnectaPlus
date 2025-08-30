@@ -11,7 +11,7 @@ export default function HomePage() {
 
   const userId = localStorage.getItem("user_id") || null;
 
-  // Carga nombre (igual que antes)
+  // Carga nombre
   useEffect(() => {
     const token = localStorage.getItem("access_token");
     if (!token) return;
@@ -29,7 +29,7 @@ export default function HomePage() {
       .catch(() => {});
   }, []);
 
-  // Calcula # de grupos del dueño actual (mock)
+  // Calcula # de grupos del dueño actual
   const computeMyGroupsCount = () => {
     const all = JSON.parse(localStorage.getItem("groups") || "[]");
     return all.filter((g) => String(g.ownerId ?? "") === String(userId)).length;
