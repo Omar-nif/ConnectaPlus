@@ -1,12 +1,14 @@
 // ======================================================================
-// Generador de cliente
+// Prisma Client generator
+// - Genera el cliente tipado para usar Prisma en Node/TS.
 // ======================================================================
 generator client {
   provider = "prisma-client-js"
 }
 
 // ======================================================================
-// Conexión a la base de datos
+// Datasource (PostgreSQL)
+// - Lee la cadena de conexión de la variable de entorno DATABASE_URL.
 // ======================================================================
 datasource db {
   provider = "postgresql"
@@ -15,38 +17,73 @@ datasource db {
 
 // ======================================================================
 // Modelo: User
+// - Representa cuentas de usuario en la app.
+// - Relación 1:N con Group (un usuario puede ser dueño de varios grupos).
 // ======================================================================
 model User {
-  id        Int       @id @default(autoincrement())
-  email     String    @unique
-  name      String?
-  password  String
-  createdAt DateTime  @default(now())
+  id        Int      @id @default(autoincrement()) // PK autoincremental
+  name      String?                                 // Nombre opcional
+  email     String   @unique                        // Correo único
+  password  String                                  // Hash de contraseña
+  createdAt DateTime @default(now())                // Fecha de creación
 
-  // Relación con grupos (dueño)
   groups    Group[]
+  groups Group[]
+  // Relación con pagos
+  payments Payment[]
+
 }
 
 // ======================================================================
 // Modelo: Group
+// - Grupo creado por un dueño (ownerId).
+// - Datos derivados del preset (platformKey/name/planKey, precios, slots).
+// - Credenciales se muestran borrosas en FE hasta “pago completado” (lógica FE).
 // ======================================================================
-
 model Group {
-  id             Int      @id @default(autoincrement())
-  ownerId        Int
-  platformKey    String    // "spotify" | "disney" | ...
-  platformName   String    // Ej: "Spotify Premium · Familiar"
-  planKey        String?   // Ej: "family" (nullable si no aplica)
-  basePriceMXN   Int       // precio base mensual en MXN
-  slots          Int       // cupos totales (4–8)
-  pricePerMember Int       // MXN por integrante (derivado en FE, guardado aquí)
-  credentials    String    // texto plano (por ahora)
-  notes          String?   // nota del dueño
-  status         String    @default("active") // "active" | "paused"
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  id             Int      @id @default(autoincrement()) // PK autoincremental
 
-  owner          User      @relation(fields: [ownerId], references: [id])
+  ownerId        Int                                     // FK a User
+  owner          User     @relation(fields: [ownerId], references: [id])
+  // Relación con pagos
+  payments Payment[]
 
-  @@index([ownerId])
+  platformKey    String                                   // Ej: "spotify", "disney"
+  platformName   String                                   // Ej: "Spotify Premium · Familiar"
+  planKey        String?                                  // Ej: "family" (nullable si no aplica)
+
+  basePriceMXN   Int                                      // Precio base mensual (MXN)
+  slots          Int                                      // Cupos totales del grupo (p.ej. 4–8)
+  pricePerMember Int                                      // MXN por integrante (derivado y guardado)
+
+  credentials    String                                   // Texto plano (por ahora)
+  notes          String?                                  // Notas del dueño (opcional)
+
+  status         String   @default("active")              // "active" | "paused" (MVP)
+  createdAt      DateTime @default(now())                 // Timestamp creación
+  updatedAt      DateTime @updatedAt                      // Timestamp auto-update
+
+  @@index([ownerId]) // Índice para filtrar por dueño rápidamente
+}
+
+// ======================================================================
+// Modelo: Payment
+// ======================================================================
+model Payment {
+  id                    Int      @id @default(autoincrement())
+  userId                Int
+  groupId               Int?
+  stripePaymentIntentId String   @unique
+  amount                Int // en centavos (ej: 1000 = $10.00)
+  currency              String   @default("mxn")
+  status                String   @default("pending") // "pending" | "succeeded" | "failed"
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  // Relaciones
+  user  User   @relation(fields: [userId], references: [id])
+  group Group? @relation(fields: [groupId], references: [id])
+
+  @@index([userId])
+  @@index([groupId])
 }

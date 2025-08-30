@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
@@ -10,7 +11,7 @@ export default function HomePage() {
 
   const userId = localStorage.getItem("user_id") || null;
 
-  // Carga nombre (igual que antes)
+  // Carga nombre
   useEffect(() => {
     const token = localStorage.getItem("access_token");
     if (!token) return;
@@ -28,7 +29,7 @@ export default function HomePage() {
       .catch(() => {});
   }, []);
 
-  // Calcula # de grupos del dueño actual (mock)
+  // Calcula # de grupos del dueño actual
   const computeMyGroupsCount = () => {
     const all = JSON.parse(localStorage.getItem("groups") || "[]");
     return all.filter((g) => String(g.ownerId ?? "") === String(userId)).length;
@@ -71,15 +72,15 @@ export default function HomePage() {
                   plataformas y controla tus pagos desde un solo lugar.
                 </p>
                 <div className="d-flex gap-2 mt-3">
-                  <a href="/groups/new" className="btn btn-light">Crear grupo</a>
-                  <a href="/groups" className="btn btn-outline-light">Explorar plataformas</a>
+                  <Link to="/groups/new" className="btn btn-light">Crear grupo</Link>
+                  <Link to="/explore-groups" className="btn btn-outline-light">Explorar plataformas</Link>
                 </div>
 
                 <div className="home-quick mt-4">
-                  <a className="home-chip" href="/groups">Mis grupos</a>
-                  <a className="home-chip" href="/payments">Pagos</a>
-                  <a className="home-chip" href="/profile">Perfil</a>
-                  <a className="home-chip" href="/help">Ayuda</a>
+                  <Link className="home-chip" to="/groups">Mis grupos</Link>
+                  <Link className="home-chip" to="/payments">Pagos</Link>
+                  <Link className="home-chip" to="/profile">Perfil</Link>
+                  <Link className="home-chip" to="/help">Ayuda</Link>
                 </div>
               </div>
             </div>
@@ -101,7 +102,7 @@ export default function HomePage() {
                     <p className="text-secondary mt-2">
                       Crea, invita y gestiona cupos y membresías.
                     </p>
-                    <a href="/groups" className="btn btn-outline-primary btn-sm">Ir a grupos</a>
+                    <Link to="/groups" className="btn btn-outline-primary btn-sm">Ir a grupos</Link>
                   </div>
                 </div>
               </div>
@@ -113,7 +114,7 @@ export default function HomePage() {
                     <p className="text-secondary mt-2">
                       Netflix, Spotify, Game Pass, Adobe y más.
                     </p>
-                    <a href="/groups" className="btn btn-outline-primary btn-sm">Explorar</a>
+                    <Link to="/explore-groups" className="btn btn-outline-primary btn-sm">Explorar</Link>
                   </div>
                 </div>
               </div>
@@ -125,7 +126,7 @@ export default function HomePage() {
                     <p className="text-secondary mt-2">
                       Ver historial, pendientes y métodos guardados.
                     </p>
-                    <a href="/payments" className="btn btn-outline-primary btn-sm">Ver pagos</a>
+                    <Link to="/payments" className="btn btn-outline-primary btn-sm">Ver pagos</Link>
                   </div>
                 </div>
               </div>
@@ -153,7 +154,7 @@ export default function HomePage() {
                       </table>
                     </div>
                     <div className="text-end mt-2">
-                      <a className="small link-primary" href="/activity">Ver todo</a>
+                      <Link className="small link-primary" to="/activity">Ver todo</Link>
                     </div>
                   </div>
                 </div>
@@ -168,7 +169,7 @@ export default function HomePage() {
                       <li>Configura 2FA (próximamente)</li>
                       <li>Revisa inicios de sesión recientes</li>
                     </ul>
-                    <a href="/security" className="btn btn-outline-primary btn-sm">Ir a seguridad</a>
+                    <Link to="/security" className="btn btn-outline-primary btn-sm">Ir a seguridad</Link>
                   </div>
                 </div>
               </div>
