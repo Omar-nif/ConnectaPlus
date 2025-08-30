@@ -1,0 +1,77 @@
+/* ====== Plataforma: variables por marca ====== */
+.platform-card { 
+  --brand: #6c757d;            /* fallback gris */
+  --brand-contrast: #ffffff;   /* texto sobre botón sólido */
+  --brand-soft: rgba(0,0,0,.04);
+  --brand-border: var(--brand);
+}
+
+/* Mapas de marca */
+.platform-netflix   { --brand:#E50914; --brand-contrast:#fff; }
+.platform-spotify   { --brand:#1DB954; --brand-contrast:#0b0b0b; }
+.platform-disney    { --brand:#113CCF; --brand-contrast:#ffffff; }      /* Disney+ → disney */
+.platform-youtube   { --brand:#FF0000; --brand-contrast:#ffffff; }      /* YouTube Premium → youtube */
+.platform-xbox      { --brand:#107C10; --brand-contrast:#ffffff; }      /* Xbox Game Pass → xbox */
+.platform-adobe     { --brand:#FF0000; --brand-contrast:#ffffff; }
+
+/* Tarjeta: sutil acento en borde superior */
+.platform-card {
+  border: 1px solid var(--bs-border-color);
+  position: relative;
+  overflow: hidden;
+}
+
+.platform-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 4px;
+  background: var(--brand);
+}
+
+/* Badge “Demo” con borde y fondo suave del color de marca */
+.platform-card .platform-badge {
+  background: color-mix(in srgb, var(--brand) 12%, #fff);
+  border: 1px solid var(--brand);
+  color: #222;
+  font-weight: 600;
+}
+
+/* Botón sólido de marca (scoped, no rompe otros .btn-primary) */
+.platform-card .platform-solid.btn {
+  background-color: var(--brand) !important;
+  border-color: var(--brand) !important;
+  color: var(--brand-contrast) !important;
+}
+
+.platform-card .platform-solid.btn:hover,
+.platform-card .platform-solid.btn:focus {
+  filter: brightness(0.92);
+}
+
+/* Botón contorno con color de marca */
+.platform-card .platform-outline.btn {
+  background-color: transparent !important;
+  border-color: var(--brand) !important;
+  color: var(--brand) !important;
+}
+
+.platform-card .platform-outline.btn:hover,
+.platform-card .platform-outline.btn:focus {
+  background: color-mix(in srgb, var(--brand) 10%, #fff) !important;
+}
+
+/* Hover sutil en la tarjeta */
+.platform-card:hover {
+  box-shadow: 0 .5rem 1rem rgba(0,0,0,.08), 0 .125rem .25rem rgba(0,0,0,.06);
+}
+
+/* Texto secundario un poco más contrastado sobre fondo claro */
+.platform-card .text-secondary {
+  color: #6c757d !important;
+}
+
+/* Responsive tweaks */
+@media (max-width: 575.98px) {
+  .platform-card .btn.btn-sm { padding: .5rem .75rem; }
+}

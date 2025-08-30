@@ -1,8 +1,8 @@
 // src/services/services.controller.ts
 import { Request, Response } from 'express'
-import { ok, fail } from '../utils/http'
-import { prisma } from '../lib/prisma'
-import { verifyAccess } from '../utils/jwt'
+import { ok, fail } from '../../utils/http'
+import { prisma } from '../../lib/prisma'
+import { verifyAccess } from '../../utils/jwt'
 import { getAllServices, getCategories, getServicesByCategory, findBySlug } from './services.data'
 
 

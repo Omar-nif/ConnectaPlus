@@ -1,36 +1,62 @@
+// ======================================================================
+// Prisma Client generator
+// - Genera el cliente tipado para usar Prisma en Node/TS.
+// ======================================================================
 generator client {
   provider = "prisma-client-js"
 }
 
+// ======================================================================
+// Datasource (PostgreSQL)
+// - Lee la cadena de conexión de la variable de entorno DATABASE_URL.
+// ======================================================================
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
+// ======================================================================
+// Modelo: User
+// - Representa cuentas de usuario en la app.
+// - Relación 1:N con Group (un usuario puede ser dueño de varios grupos).
+// ======================================================================
 model User {
-  id        Int      @id @default(autoincrement())
-  name      String?
-  email     String   @unique
-  password  String
-  createdAt DateTime @default(now())
+  id        Int      @id @default(autoincrement()) // PK autoincremental
+  name      String?                                 // Nombre opcional
+  email     String   @unique                        // Correo único
+  password  String                                  // Hash de contraseña
+  createdAt DateTime @default(now())                // Fecha de creación
+
+  // Relación con grupos donde es dueño
   groups    Group[]
 }
 
+// ======================================================================
+// Modelo: Group
+// - Grupo creado por un dueño (ownerId).
+// - Datos derivados del preset (platformKey/name/planKey, precios, slots).
+// - Credenciales se muestran borrosas en FE hasta “pago completado” (lógica FE).
+// ======================================================================
 model Group {
-  id             Int      @id @default(autoincrement())
-  ownerId        Int
-  platformKey    String
-  platformName   String
-  planKey        String?
-  basePriceMXN   Int
-  slots          Int
-  pricePerMember Int
-  credentials    String
-  notes          String?
-  status         String   @default("active")
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  id             Int      @id @default(autoincrement()) // PK autoincremental
+
+  ownerId        Int                                     // FK a User
   owner          User     @relation(fields: [ownerId], references: [id])
 
-  @@index([ownerId])
+  platformKey    String                                   // Ej: "spotify", "disney"
+  platformName   String                                   // Ej: "Spotify Premium · Familiar"
+  planKey        String?                                  // Ej: "family" (nullable si no aplica)
+
+  basePriceMXN   Int                                      // Precio base mensual (MXN)
+  slots          Int                                      // Cupos totales del grupo (p.ej. 4–8)
+  pricePerMember Int                                      // MXN por integrante (derivado y guardado)
+
+  credentials    String                                   // Texto plano (por ahora)
+  notes          String?                                  // Notas del dueño (opcional)
+
+  status         String   @default("active")              // "active" | "paused" (MVP)
+  createdAt      DateTime @default(now())                 // Timestamp creación
+  updatedAt      DateTime @updatedAt                      // Timestamp auto-update
+
+  @@index([ownerId]) // Índice para filtrar por dueño rápidamente
 }

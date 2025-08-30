@@ -7,7 +7,7 @@ const app = express();
 
 // Rutas de módulos
 import authRoutes from './modules/auth/auth.routes'
-import servicesRoutes from './services/services.routes'
+import servicesRoutes from './modules/services/services.routes'
 app.use(cors({
   origin: ["http://localhost:5173"],
   allowedHeaders: ["Content-Type", "Authorization"],
