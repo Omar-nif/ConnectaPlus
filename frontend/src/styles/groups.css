@@ -1,0 +1,89 @@
+/* Card con acento superior por marca */
+.group-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--bs-border-color);
+}
+.group-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 4px;
+  background: var(--brand-accent, var(--bs-primary));
+}
+
+/* Punto de color junto al título */
+.brand-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: var(--brand-accent, var(--bs-primary));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-accent, var(--bs-primary)) 20%, #fff);
+}
+
+/* Botón suave */
+.btn-soft {
+  background: #f6f7f9;
+  border: 1px solid #e6e8eb;
+  color: #2b2f36;
+}
+.btn-soft:hover { background: #eef0f3; }
+
+/* Ayudas de formulario uniformes */
+.form-hint {
+  margin-top: .375rem;
+  color: #6c757d;
+  font-size: .875rem;
+}
+
+/* Feedback Bootstrap */
+.is-invalid ~ .invalid-feedback { display: block; }
+
+/* Refinamiento de sombras */
+.group-card:hover {
+  box-shadow: 0 .6rem 1.2rem rgba(0,0,0,.08), 0 .2rem .4rem rgba(0,0,0,.06);
+}
+
+/* Blur simulado para credenciales */
+.masked { filter: blur(3px); }
+.masked:focus { filter: none; }
+
+/* Chat vacío */
+.empty-chat {
+  min-height: 220px;
+  display: grid;
+  place-items: center;
+  color: #6b7280;
+}
+
+/* Barra de progreso más amigable */
+.progress { height: .6rem; background: #eef0f3; }
+.progress-bar { background: var(--brand-accent, var(--bs-primary)); }
+
+/* Lista de integrantes */
+.member-item {
+  display: flex;
+  gap: .75rem;
+  align-items: center;
+  padding: .5rem 0;
+  border-top: 1px solid #f1f3f5;
+}
+.member-item:first-child { border-top: 0; }
+
+.member-avatar {
+  flex: 0 0 36px;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: .9rem;
+  color: #fff;
+  background: var(--brand-accent, var(--bs-primary));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-accent, var(--bs-primary)) 22%, #fff);
+}
+
+.member-meta { min-width: 0; }
+.member-meta .fw-semibold { line-height: 1.2; }
+.member-meta .text-secondary { line-height: 1.2; }

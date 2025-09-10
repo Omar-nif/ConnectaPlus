@@ -70,7 +70,6 @@ export default function Navbar() {
               <>
                 <li className="nav-item"><a className="nav-link" href="#como">Cómo funciona</a></li>
                 <li className="nav-item"><a className="nav-link" href="#plataformas">Plataformas</a></li>
-                <li className="nav-item"><a className="nav-link" href="#juegos">Juegos P2P</a></li>
                 <li className="nav-item"><a className="nav-link" href="#precios">Precios</a></li>
                 <li className="nav-item"><a className="nav-link" href="#seguridad">Seguridad</a></li>
                 <li className="nav-item"><a className="nav-link" href="#faq">FAQ</a></li>

@@ -5,9 +5,8 @@ import Footer from "../components/Footer";
 import { getMyGroups, deleteGroup } from "../api/groups";
 
 const MXN = (n) =>
-  new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN" }).format(
-    Math.max(0, Number(n) || 0)
-  );
+  new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN" })
+    .format(Math.max(0, Number(n) || 0));
 
 export default function Groups() {
   const navigate = useNavigate();
@@ -31,7 +30,6 @@ export default function Groups() {
       setLoading(false);
     }
   }
-
   useEffect(() => { load(); }, []);
 
   const filtered = useMemo(() => {
@@ -50,9 +48,7 @@ export default function Groups() {
       );
     }
     list.sort((a, b) => {
-      if (sort === "recent") {
-        return new Date(b.createdAt) - new Date(a.createdAt);
-      }
+      if (sort === "recent") return new Date(b.createdAt) - new Date(a.createdAt);
       const pa = Number(a.pricePerMember) || 0;
       const pb = Number(b.pricePerMember) || 0;
       if (sort === "price_asc") return pa - pb;
@@ -63,7 +59,6 @@ export default function Groups() {
   }, [groups, query, status, sort]);
 
   function openGroup(id) { navigate(`/groups/${id}`); }
-  function editGroup(id) { navigate(`/groups/${id}?edit=1`); }
 
   async function onDelete(id) {
     if (!confirm("¿Eliminar este grupo?")) return;
@@ -80,6 +75,7 @@ export default function Groups() {
       <Navbar />
       <main className="py-4">
         <div className="container" style={{ maxWidth: 1100 }}>
+          {/* Header + CTA */}
           <div className="d-flex justify-content-between align-items-center mb-3">
             <div className="d-flex align-items-center gap-2">
               <button className="btn btn-outline-secondary" onClick={() => navigate(-1)}>← Regresar</button>
@@ -90,26 +86,41 @@ export default function Groups() {
             </button>
           </div>
 
-          <div className="d-flex flex-wrap gap-2 mb-3">
+          {/* Filtros rápidos */}
+          <div className="d-flex flex-wrap gap-2 align-items-center mb-3">
             <input
               className="form-control"
               style={{ maxWidth: 520 }}
-              placeholder="Buscar por plataforma, plan o notas"
+              placeholder="Buscar por plataforma o notas"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
+              aria-label="Buscar grupos por texto"
             />
-            <select className="form-select" style={{ maxWidth: 220 }} value={status} onChange={(e) => setStatus(e.target.value)}>
+            <select
+              className="form-select"
+              style={{ maxWidth: 200 }}
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+              aria-label="Filtrar por estado"
+            >
               <option value="all">Todos ({groups.length})</option>
               <option value="active">Activos</option>
               <option value="paused">Pausados</option>
             </select>
-            <select className="form-select" style={{ maxWidth: 220 }} value={sort} onChange={(e) => setSort(e.target.value)}>
+            <select
+              className="form-select"
+              style={{ maxWidth: 220 }}
+              value={sort}
+              onChange={(e) => setSort(e.target.value)}
+              aria-label="Ordenar resultados"
+            >
               <option value="recent">Recientes primero</option>
               <option value="price_asc">Precio por integrante ↑</option>
               <option value="price_desc">Precio por integrante ↓</option>
             </select>
           </div>
 
+          {/* Contenido */}
           {loading ? (
             <div className="border rounded p-5 text-center">Cargando…</div>
           ) : err ? (
@@ -118,7 +129,9 @@ export default function Groups() {
             <div className="border rounded p-5 text-center text-secondary">
               No hay grupos. Crea tu primer grupo.
               <div className="mt-3">
-                <button className="btn btn-primary" onClick={() => navigate("/groups/new")}>Crear grupo</button>
+                <button className="btn btn-primary" onClick={() => navigate("/groups/new")}>
+                  Crear grupo
+                </button>
               </div>
             </div>
           ) : (
@@ -126,10 +139,12 @@ export default function Groups() {
               {filtered.map((g) => {
                 const slotsTotal = Number(g.slots) || 0;
                 const slotsUsed = Array.isArray(g.members) ? g.members.length : 0;
+                const pct = slotsTotal ? Math.min(100, (100 * slotsUsed) / slotsTotal) : 0;
 
                 return (
                   <div key={g.id} className="card shadow-sm">
                     <div className="card-body">
+                      {/* header de la tarjeta */}
                       <div className="d-flex justify-content-between align-items-start">
                         <div>
                           <h5 className="fw-bold m-0">{g.platformName || "Plataforma"}</h5>
@@ -137,17 +152,23 @@ export default function Groups() {
                             Creado: {new Date(g.createdAt).toLocaleString()}
                           </div>
                         </div>
-                        <span className={`badge ${g.status === "active" ? "text-bg-success" : "text-bg-secondary"}`}>
+                        <span
+                          className={`badge rounded-pill ${
+                            g.status === "active" ? "text-bg-success" : "text-bg-secondary"
+                          }`}
+                          title={`Estado: ${g.status}`}
+                        >
                           {g.status}
                         </span>
                       </div>
 
+                      {/* métricas */}
                       <div className="row mt-3 g-3">
                         <div className="col-12 col-md-4">
                           <div className="small text-secondary">Cupos</div>
                           <div className="fw-bold">{slotsUsed} / {slotsTotal}</div>
-                          <div className="progress mt-1">
-                            <div className="progress-bar" style={{ width: `${slotsTotal ? (100 * slotsUsed) / slotsTotal : 0}%` }} />
+                          <div className="progress mt-1" role="progressbar" aria-valuenow={pct} aria-valuemin="0" aria-valuemax="100">
+                            <div className="progress-bar" style={{ width: `${pct}%` }} />
                           </div>
                         </div>
                         <div className="col-6 col-md-4">
@@ -160,15 +181,22 @@ export default function Groups() {
                         </div>
                       </div>
 
+                      {/* notas */}
                       <div className="mt-3">
                         <div className="small text-secondary mb-1">Notas del dueño</div>
-                        <input className="form-control" disabled value={g.notes || "—"} readOnly />
+                        <div className="form-control bg-body-tertiary" style={{ cursor: "default" }}>
+                          {g.notes || "—"}
+                        </div>
                       </div>
 
-                      <div className="d-flex gap-2 mt-3">
-                        <button className="btn btn-outline-primary" onClick={() => openGroup(g.id)}>Abrir</button>
-                        <button className="btn btn-outline-secondary" onClick={() => editGroup(g.id)}>Editar</button>
-                        <button className="btn btn-outline-danger" onClick={() => onDelete(g.id)}>Eliminar</button>
+                      {/* acciones (sin Editar) */}
+                      <div className="d-flex flex-wrap gap-2 mt-3">
+                        <button className="btn btn-outline-primary" onClick={() => openGroup(g.id)}>
+                          Abrir
+                        </button>
+                        <button className="btn btn-outline-danger" onClick={() => onDelete(g.id)}>
+                          Eliminar
+                        </button>
                       </div>
                     </div>
                   </div>

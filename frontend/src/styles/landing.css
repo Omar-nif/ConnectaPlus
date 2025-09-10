@@ -6,30 +6,37 @@
   --brand-border: var(--brand);
 }
 
-/* Mapas de marca */
+/* ====== Mapas de marca (coinciden con platform-${slug}) ====== */
+/*  Slugs usados en Landing.jsx:
+    paramount, disney, prime-video, youtube, spotify, hbo
+*/
+.platform-paramount { --brand:#0064E0; --brand-contrast:#ffffff; }  /* Paramount+ */
+.platform-disney    { --brand:#113CCF; --brand-contrast:#ffffff; }  /* Disney+ */
+.platform-prime-video { --brand:#00A8E1; --brand-contrast:#0b0b0b; }/* Prime Video */
+.platform-youtube   { --brand:#FF0000; --brand-contrast:#ffffff; }  /* YouTube Premium */
+.platform-spotify   { --brand:#1DB954; --brand-contrast:#0b0b0b; }  /* Spotify */
+.platform-hbo       { --brand:#5A2D82; --brand-contrast:#ffffff; }  /* HBO Max */
+
+/* (Opcionales que ya tenías) */
 .platform-netflix   { --brand:#E50914; --brand-contrast:#fff; }
-.platform-spotify   { --brand:#1DB954; --brand-contrast:#0b0b0b; }
-.platform-disney    { --brand:#113CCF; --brand-contrast:#ffffff; }      /* Disney+ → disney */
-.platform-youtube   { --brand:#FF0000; --brand-contrast:#ffffff; }      /* YouTube Premium → youtube */
-.platform-xbox      { --brand:#107C10; --brand-contrast:#ffffff; }      /* Xbox Game Pass → xbox */
+.platform-xbox      { --brand:#107C10; --brand-contrast:#ffffff; }
 .platform-adobe     { --brand:#FF0000; --brand-contrast:#ffffff; }
 
-/* Tarjeta: sutil acento en borde superior */
+/* ====== Tarjeta: sutil acento en borde superior ====== */
 .platform-card {
   border: 1px solid var(--bs-border-color);
   position: relative;
   overflow: hidden;
 }
-
 .platform-card::before {
   content: "";
   position: absolute;
-  inset: 0 0 auto 0;
+  inset: 0 0 auto 0; /* top full width */
   height: 4px;
   background: var(--brand);
 }
 
-/* Badge “Demo” con borde y fondo suave del color de marca */
+/* ====== Badge “Demo” con borde y fondo suave del color de marca ====== */
 .platform-card .platform-badge {
   background: color-mix(in srgb, var(--brand) 12%, #fff);
   border: 1px solid var(--brand);
@@ -37,25 +44,21 @@
   font-weight: 600;
 }
 
-/* Botón sólido de marca (scoped, no rompe otros .btn-primary) */
+/* ====== Botones scoped ====== */
 .platform-card .platform-solid.btn {
   background-color: var(--brand) !important;
   border-color: var(--brand) !important;
   color: var(--brand-contrast) !important;
 }
-
 .platform-card .platform-solid.btn:hover,
 .platform-card .platform-solid.btn:focus {
   filter: brightness(0.92);
 }
-
-/* Botón contorno con color de marca */
 .platform-card .platform-outline.btn {
   background-color: transparent !important;
   border-color: var(--brand) !important;
   color: var(--brand) !important;
 }
-
 .platform-card .platform-outline.btn:hover,
 .platform-card .platform-outline.btn:focus {
   background: color-mix(in srgb, var(--brand) 10%, #fff) !important;
@@ -66,7 +69,7 @@
   box-shadow: 0 .5rem 1rem rgba(0,0,0,.08), 0 .125rem .25rem rgba(0,0,0,.06);
 }
 
-/* Texto secundario un poco más contrastado sobre fondo claro */
+/* Texto secundario un poco más contrastado */
 .platform-card .text-secondary {
   color: #6c757d !important;
 }

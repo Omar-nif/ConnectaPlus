@@ -15,12 +15,14 @@ const platformSlugMap = {
   'Prime Video': 'prime-video',
   'YouTube Premium': 'youtube',
   'Spotify': 'spotify',
+  'HBO Max': 'hbo', // agregado con slug propio
 }
 
 export default function Landing() {
   const getSlug = (name) =>
     platformSlugMap[name] ||
-    name.toLowerCase()
+    name
+      .toLowerCase()
       .replace(/\+/g, 'plus')
       .replace(/\s+/g, '-')
       .replace(/[^a-z0-9-]/g, '')
@@ -39,11 +41,11 @@ export default function Landing() {
               <div className="col-12 col-lg-8">
                 <span className="badge text-bg-primary">Nuevo</span>
                 <h1 className="display-5 fw-bold mt-3">
-                  Comparte suscripciones y juegos, paga menos y juega más.
+                  Comparte suscripciones y paga menos.
                 </h1>
                 <p className="lead text-secondary mt-3">
-                  Connecta+ organiza grupos, pagos protegidos y acceso seguro. Para juegos,
-                  compartes solo la ventana del título con control filtrado.
+                  Connecta+ organiza grupos, pagos protegidos y acceso seguro a tus
+                  plataformas favoritas. Todo en un solo lugar.
                 </p>
                 <div className="d-flex gap-2 mt-3">
                   <Link to="/register" className="btn btn-primary btn-lg">Registrarme</Link>
@@ -122,6 +124,7 @@ export default function Landing() {
                 { name: 'Prime Video', desc: 'Películas y series de Amazon' },
                 { name: 'YouTube Premium', desc: 'Video sin anuncios' },
                 { name: 'Spotify', desc: 'Música sin anuncios' },
+                { name: 'HBO Max', desc: 'Películas y series de HBO' }, // nuevo con color
               ].map((p, i) => {
                 const slug = getSlug(p.name)
                 return (
@@ -138,31 +141,6 @@ export default function Landing() {
                   </div>
                 )
               })}
-            </div>
-          </div>
-        </section>
-
-        {/* ===== JUEGOS P2P ===== */}
-        <section id="juegos" className="py-5">
-          <div className="container">
-            <div className="row g-4 align-items-center">
-              <div className="col-12 col-lg-6">
-                <h2 className="fw-bold">Juega por streaming seguro</h2>
-                <ul className="mt-3 text-secondary">
-                  <li>Compartes <strong>solo la ventana del juego</strong>, no tu escritorio.</li>
-                  <li><strong>Control limitado</strong>: solo teclas/mandos permitidos.</li>
-                  <li><strong>Cierre automático</strong> al terminar la sesión.</li>
-                </ul>
-                <Link to="/register" className="btn btn-primary mt-2">Descargar app de juegos</Link>
-              </div>
-              <div className="col-12 col-lg-6">
-                <div className="ratio ratio-16x9 border rounded-3 bg-light d-flex align-items-center justify-content-center">
-                  <div className="text-center p-3">
-                    <div className="fw-bold">Preview P2P</div>
-                    <div className="text-secondary">Coloca un video/gif en el futuro</div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </section>
@@ -239,7 +217,6 @@ export default function Landing() {
                 { q: '¿Connecta+ vende cuentas?', a: 'No. Solo organizamos grupos y pagos; el contenido se consume en las apps oficiales.' },
                 { q: '¿Es legal compartir?', a: 'Depende de los TyC de cada servicio. Mostramos avisos y límites por plataforma.' },
                 { q: '¿Cómo funcionan los pagos?', a: 'Stripe; el dinero se libera cuando el acceso está confirmado (escrow).' },
-                { q: '¿Qué tan seguro es el módulo P2P?', a: 'Solo ventana del juego, inputs filtrados y cierre automático.' },
               ].map((f, i) => (
                 <div className="accordion-item" key={i}>
                   <h2 className="accordion-header" id={`h-${i}`}>
