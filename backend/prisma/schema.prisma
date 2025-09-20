@@ -27,7 +27,6 @@ model User {
   password  String                                  // Hash de contraseña
   createdAt DateTime @default(now())                // Fecha de creación
 
-  groups    Group[]
   groups Group[]
   // Relación con pagos
   payments Payment[]
