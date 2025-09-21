@@ -16,6 +16,8 @@ import ServiceGroups from './pages/ServiceGroups'
 import Terms from './pages/Terms'        
 import Privacy from './pages/Privacy'    
 import ProtectedRoute from './components/ProtectedRoute'
+import JoinGroup from './pages/JoinGroup'; // vista para entrar al grupo
+
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -36,6 +38,7 @@ export default function App() {
         <Route path="/reset" element={<ResetPassword />} />
         <Route path="/terms" element={<Terms />} />         {/* ← nuevo */}
         <Route path="/privacy" element={<Privacy />} />     {/* ← nuevo */}
+
 
         {/* privadas */}
         <Route
@@ -94,6 +97,15 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+        <Route 
+          path="/groups/:id/join" 
+          element={
+          <ProtectedRoute>
+            <JoinGroup />
+          </ProtectedRoute>
+  } 
+/>
+
 
         {/* 404 */}
         <Route path="*" element={<div style={{ padding: 40 }}>404 — Página no encontrada</div>} />
