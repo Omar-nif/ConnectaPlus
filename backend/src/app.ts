@@ -9,7 +9,7 @@ import paymentRouter from "./routes/payment";
 const app = express()
 
 // Rutas de módulos
-import authRoutes from './modules/auth/auth.routes'
+//import authRoutes from './modules/auth/auth.routes'
 import servicesRoutes from './modules/services/services.routes'
 app.use(cors({
   origin: ["http://localhost:5173"],
@@ -45,7 +45,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/groups", groupRoutes); 
 
 // Export para usar en server.ts
-export default app
+//export default app
 
 
 app.use("/api/payment", paymentRouter) 
