@@ -1,13 +1,15 @@
 // backend/src/middlewares/auth.ts
 import { Request, Response, NextFunction } from "express";
 import { verifyAccess } from "../utils/jwt";
-
+import jwt from "jsonwebtoken";
 /* ---------------------------- Tipo extendido ---------------------------- */
-// Extendemos Request para incluir el usuario autenticado.
+/* Extendemos Request para incluir el usuario autenticado.
 export type AuthedRequest = Request & {
   user?: { id: string; email: string };
-};
-
+};*/
+export interface AuthedRequest extends Request {
+  user?: { id: string; email: string };
+}
 /* --------------------------- Middleware Auth ---------------------------- */
 /**
  * Verifica el token de acceso (JWT) en Authorization: Bearer <token>.

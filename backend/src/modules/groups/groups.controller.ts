@@ -1,5 +1,5 @@
 // backend/src/modules/groups/groups.controller.ts
-import { Response } from "express";
+import { Request, Response } from "express";
 import { prisma } from "../../lib/prisma";
 import { ok, fail } from "../../utils/http";
 import { createGroupSchema, updateGroupSchema } from "./groups.schema";
@@ -161,4 +161,29 @@ export async function deleteGroup(req: AuthedRequest, res: Response) {
 
   await prisma.group.delete({ where: { id } });
   return ok(res, { deleted: true });
+}
+
+///--------------------------
+export async function getPublicGroup(req: Request, res: Response) {
+  const id = Number(req.params.id);
+
+  const group = await prisma.group.findUnique({
+    where: { id },
+    select: {
+      id: true,
+      platformName: true,
+      basePriceMXN: true,
+      slots: true,
+      pricePerMember: true,
+      createdAt: true,
+      status: true,
+      
+    },
+  });
+
+  if (!group) {
+    return fail(res, "No encontrado.", 404, "NOT_FOUND");
+  }
+
+  return ok(res, group);
 }

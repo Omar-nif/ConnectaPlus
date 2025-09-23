@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";   
+import { useParams, useNavigate } from "react-router-dom";  
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import JoinGroupModal from "../components/JoinModal";
-import { getGroup } from "../api/groups";
+import { getPublicGroup } from "../api/groups";
 
 export default function JoinGroup() {
     const { id } = useParams();
@@ -15,7 +16,7 @@ export default function JoinGroup() {
       let cancel = false;
       (async () => {
         try {
-          const data = await getGroup(id);
+          const data = await getPublicGroup(id);
           if (!cancel) setGroup(data);
         } catch (e) {
           console.error(e);
