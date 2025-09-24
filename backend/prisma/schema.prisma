@@ -40,29 +40,26 @@ model User {
 // - Credenciales se muestran borrosas en FE hasta “pago completado” (lógica FE).
 // ======================================================================
 model Group {
-  id             Int      @id @default(autoincrement()) // PK autoincremental
-
-  ownerId        Int                                     // FK a User
+  id             Int      @id @default(autoincrement())
+  ownerId        Int
   owner          User     @relation(fields: [ownerId], references: [id])
-  // Relación con pagos
-  payments Payment[]
+  serviceId      Int?     // ← NUEVO: foreign key opcional
+  service        Service? @relation(fields: [serviceId], references: [id]) // ← NUEVO: relación
+  platformKey    String
+  platformName   String
+  planKey        String?
+  basePriceMXN   Int
+  slots          Int
+  pricePerMember Int
+  credentials    String
+  notes          String?
+  status         String   @default("active")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  payments       Payment[]
 
-  platformKey    String                                   // Ej: "spotify", "disney"
-  platformName   String                                   // Ej: "Spotify Premium · Familiar"
-  planKey        String?                                  // Ej: "family" (nullable si no aplica)
-
-  basePriceMXN   Int                                      // Precio base mensual (MXN)
-  slots          Int                                      // Cupos totales del grupo (p.ej. 4–8)
-  pricePerMember Int                                      // MXN por integrante (derivado y guardado)
-
-  credentials    String                                   // Texto plano (por ahora)
-  notes          String?                                  // Notas del dueño (opcional)
-
-  status         String   @default("active")              // "active" | "paused" (MVP)
-  createdAt      DateTime @default(now())                 // Timestamp creación
-  updatedAt      DateTime @updatedAt                      // Timestamp auto-update
-
-  @@index([ownerId]) // Índice para filtrar por dueño rápidamente
+  @@index([ownerId])
+  @@index([serviceId]) // ← NUEVO: índice para serviceId
 }
 
 // ======================================================================
@@ -85,4 +82,22 @@ model Payment {
 
   @@index([userId])
   @@index([groupId])
+}
+
+// ======================================================================
+// Modelo: Services
+// ======================================================================
+model Service {
+  id           Int      @id @default(autoincrement())
+  slug         String   @unique
+  name         String
+  description  String
+  category     String   // 'peliculas-series' | 'programas' | 'musica'
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relaciones (opcional, para futuro)
+  groups Group[]
+
+  @@map("services") //esto renombra el modelo a "services" con minuscula
 }

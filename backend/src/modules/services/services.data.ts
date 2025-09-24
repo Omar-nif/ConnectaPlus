@@ -1,7 +1,7 @@
 // src/modules/services/services.data.ts
 // Datos estáticos para "Explorar grupos".
 // En el futuro se puede migrar a DB (tabla Service) y relacionarlo con Group.
-
+/*
 export type ServiceItem = {
   slug: string
   name: string
@@ -51,3 +51,4 @@ export function getServicesByCategory(key: typeof CATEGORIES[number]['key']) {
 export function findBySlug(slug: string) {
   return SERVICES.find(s => s.slug === slug) || null
 }
+*/

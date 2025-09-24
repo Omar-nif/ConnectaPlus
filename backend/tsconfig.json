@@ -50,6 +50,8 @@
 
     // 👇 FIX: evita el error de imports ES en CommonJS
     "verbatimModuleSyntax": false,
-    "moduleDetection": "force"
+    "moduleDetection": "force",
+    
   }
+  
 }

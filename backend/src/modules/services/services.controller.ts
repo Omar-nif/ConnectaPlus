@@ -3,33 +3,71 @@ import { Request, Response } from 'express'
 import { ok, fail } from '../../utils/http'
 import { prisma } from '../../lib/prisma'
 import { verifyAccess } from '../../utils/jwt'
-import { getAllServices, getCategories, getServicesByCategory, findBySlug } from './services.data'
 
-export function listAll(req: Request, res: Response) {
-  return ok(res, {
-    services: getAllServices(),
-  })
+//Lista TODOS los servicios desde BD
+export async function listAll(req: Request, res: Response) {
+  try {
+    const services = await prisma.service.findMany({
+      orderBy: { name: 'asc' }
+    })
+    return ok(res, { services })
+  } catch (error) {
+    console.error('Error obteniendo servicios:', error)
+    return fail(res, 'Error obteniendo servicios', 500)
+  }
 }
+//-------------------------------------------------------
+// Servicios agrupados por categoría
+export async function listByCategory(req: Request, res: Response) {
+  try {
+    const services = await prisma.service.findMany({
+      orderBy: { name: 'asc'}
+    })
 
-export function listByCategory(req: Request, res: Response) {
-  const cats = getCategories()
-  const data = cats.map(c => ({
-    key: c.key,
-    title: c.title,
-    // Tipado simple; en runtime es seguro
-    services: getServicesByCategory(c.key as any),
-  }))
-  return ok(res, data)
+    // Agrupar categorias
+    const categories = {
+      'peliculas-series': { 
+        key: 'peliculas-series', 
+        title: 'Películas y series', 
+        services: services.filter(s => s.category === 'peliculas-series')
+      },
+      'programas': { 
+        key: 'programas', 
+        title: 'Programas', 
+        services: services.filter(s => s.category === 'programas')
+      },
+      'musica': { 
+        key: 'musica', 
+        title: 'Música', 
+        services: services.filter(s => s.category === 'musica')
+      }
+    }
+    
+    return ok(res, Object.values(categories))
+  } catch (error) {
+    console.error('Error obteniendo categorías:', error)
+    return fail(res, 'Error obteniendo categorías', 500)
+  }
 }
-
-export function getBySlug(req: Request<{ slug: string }>, res: Response) {
-  const { slug } = req.params // ← Extrae "netflix" de /api/services/netflix
+//------------------------------------------------------------
+// Obtener servicio por SLUG desde la base de datos
+export async function getBySlug(req: Request<{ slug: string }>, res: Response) {
+  const { slug } = req.params // ← Extrae "netflix" por ejemplo
   if (!slug) return fail(res, 'Falta el parámetro slug', 400, 'MISSING_PARAM')
+  
+  try {
+    const service = await prisma.service.findUnique({
+      where: { slug }
+    })
 
-  const svc = findBySlug(slug) // ← Busca en datos estáticos
-  if (!svc) return fail(res, 'Servicio no encontrado', 404, 'SERVICE_NOT_FOUND')
-  return ok(res, svc) //← Devuelve el servicio encontrado
+    if (!service) return fail(res, 'Servicio no encontrado', 404, 'SERVICE_NOT_FOUND')
+      return ok(res, service)
+  } catch (error) {
+    console.error('Error buscando servicio:', error)
+    return fail(res, 'Error buscando servicio', 500)
+  }
 }
+//-------------------------------------------------------
 
 export async function listGroupsByService(req: Request<{ slug: string }>, res: Response) {
   const { slug } = req.params
