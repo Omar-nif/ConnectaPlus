@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Backend de Connecta+ con Express, Prisma y TypeScript",
   "main": "index.js",
+  "prisma": {
+    "seed": "tsx src/seed.ts"
+  },
   "scripts": {
     "dev": "cross-env NODE_ENV=development ts-node-dev --respawn --transpile-only src/server.ts",
     "build": "tsc",
