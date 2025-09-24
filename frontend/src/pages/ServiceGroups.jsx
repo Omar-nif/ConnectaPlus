@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
-import { API_URL } from '../lib/api.js' // asegúrate que sea export named
+import { API_URL } from '../lib/api.js' 
 
 // "Miembro desde {mes} {año}"
 function memberSince(dateStr) {
@@ -36,6 +36,7 @@ function Avatar({ name }) {
 }
 
 export default function ServiceGroups() {
+  
   const { slug } = useParams()
   const navigate = useNavigate()
   const [service, setService] = useState(null)
@@ -129,7 +130,7 @@ export default function ServiceGroups() {
                               <div className="fs-5 fw-bold">{fmtMXN(unit)}</div>
                               <button
                                 className="btn btn-primary btn-sm mt-2"
-                                onClick={() => alert('Flujo de unión pendiente')}
+                                onClick={() => navigate(`/groups/${g.id}/join`)}
                               >
                                 Únete
                               </button>

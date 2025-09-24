@@ -6,11 +6,15 @@ import {
   getGroup,
   updateGroup,
   deleteGroup,
+  getPublicGroup,
 } from "./groups.controller";
 
 const router = Router();
 
-// Todas requieren auth: son datos por usuario
+// Ruta pública
+router.get("/public/:id", getPublicGroup);
+
+// Rutas privadas (requieren token)
 router.use(requireAuth);
 
 router.get("/", listMyGroups);

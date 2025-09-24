@@ -60,3 +60,9 @@ export async function deleteGroup(id) {
   });
   return parse(res);
 }
+
+// Obtener grupo público (no requiere token)
+export async function getPublicGroup(id) {
+  const res = await fetch(`${API_URL}/api/groups/public/${id}`);
+  return parse(res);
+}
