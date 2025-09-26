@@ -92,12 +92,13 @@ model Service {
   slug         String   @unique
   name         String
   description  String
-  category     String   // 'peliculas-series' | 'programas' | 'musica'
+  category     String   // 'peliculas-series' | 'programas' | 'musica' | 'juegos'
+  basePriceMXN Int?
+  slots        Int?
+  plans        Json?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+  groups       Group[]
 
-  // Relaciones (opcional, para futuro)
-  groups Group[]
-
-  @@map("services") //esto renombra el modelo a "services" con minuscula
+  @@map("services")
 }
