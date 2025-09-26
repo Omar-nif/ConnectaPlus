@@ -4,7 +4,7 @@
 // ======================================================================
 
 import { Router, Response } from "express";
-import { register, login } from "./auth.controller";     // ← sólo registro/login
+import { register, login } from "./auth.controller";  // ← sólo registro/login
 import { requireAuth, AuthedRequest } from "../../middlewares/auth";
 import { prisma } from "../../lib/prisma";
 import { ok } from "../../utils/http";

@@ -1,7 +1,3 @@
-// src/utils/http.ts
-// =====================================================
-// Helpers para enviar respuestas consistentes en la API
-// =====================================================
 
 import { Response } from "express";
 
