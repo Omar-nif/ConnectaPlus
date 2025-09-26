@@ -18,6 +18,7 @@ export default function JoinGroup() {
         try {
           const data = await getPublicGroup(id);
           if (!cancel) setGroup(data);
+          console.log("📦 Datos del grupo:", data); // ← Debug
         } catch (e) {
           console.error(e);
         } finally {
@@ -35,25 +36,38 @@ export default function JoinGroup() {
   
     if (loading) return <div className="alert alert-info m-4">Cargando…</div>;
     if (!group) return <div className="alert alert-danger m-4">Grupo no encontrado</div>;
+
+    // Mapeo de campos
+    const serviceName = group.service?.name || group.platformName;
+    const ownerName = group.owner?.name || group.ownerName || "Anónimo";
+    const price = group.pricePerMember || group.price || group.basePriceMXN;
+    const planName = group.planKey ? ` · ${group.planKey}` : "";
   
     return (
       <div className="site">
         <Navbar />
         <main className="container py-5" style={{ maxWidth: 600 }}>
-          <h2>{group.service} - Plan {group.plan}</h2>
+          <h2>{serviceName}{planName}</h2>
   
           <div className="card mb-3 p-3 shadow-sm">
-            <h5>Grupo de {group.ownerName}</h5>
-            <p>Precio: ${group.price} al mes</p>
+            <h5>Grupo de {ownerName}</h5>
+            <p>Precio por miembro: <strong>${price} MXN/mes</strong></p>
+            {group.slots && <p>Slots disponibles: {group.slots}</p>}
+            {group.service?.description && (
+              <p className="text-muted">{group.service.description}</p>
+            )}
           </div>
   
           <div className="card mb-3 p-3 shadow-sm bg-warning-subtle">
             <h6>Información importante</h6>
-            <p>{group.accessInfo || "Acceso mediante credenciales"}</p>
+            <p>Al unirte, obtendrás acceso a las credenciales compartidas después del pago.</p>
+            {group.notes && (
+              <p className="mt-2"><strong>Notas del dueño:</strong> {group.notes}</p>
+            )}
           </div>
   
           <button className="btn btn-primary btn-lg" onClick={() => setShowModal(true)}>
-            Unirse
+            Unirse por ${price} MXN/mes
           </button>
         </main>
         <Footer />

@@ -3,10 +3,10 @@ import { z } from "zod";
 
 // Crear grupo: solo pedimos lo mínimo desde el frontend
 export const createGroupSchema = z.object({
-  platformKey: z.string().min(2),
-  planKey: z.string().min(1).optional().nullable(),
-  credentials: z.string().min(1),
-  notes: z.string().optional().nullable(),
+  platformKey: z.string().min(2),  // ← REQUERIDO, mínimo 2 caracteres
+  planKey: z.string().min(1).optional().nullable(),  // ← OPCIONAL, puede ser null
+  credentials: z.string().min(1), // ← REQUERIDO, no vacío
+  notes: z.string().optional().nullable(), // ← OPCIONAL
 });
 
 // Update: cualquier campo parcial (se puede extender luego)
