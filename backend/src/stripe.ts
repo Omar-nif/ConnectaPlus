@@ -1,18 +1,12 @@
-import Stripe from "stripe";
-import dotenv from "dotenv";
+// backend/src/stripe.ts - VERSIÓN COMPLETA
+import Stripe from 'stripe';
 
-dotenv.config();
+// Configuración principal
+export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  apiVersion: '2025-07-30.basil',
+});
 
-// Asegurarnos de que la clave exista
-const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
-if (!stripeSecretKey) {
-  throw new Error("Falta STRIPE_SECRET_KEY en el archivo .env");
-}
-
-// Crear la instancia de Stripe con la clave de prueba
-const stripe = new Stripe(stripeSecretKey, {
-    apiVersion: "2025-07-30.basil",
-  });
-  
+// Client ID para Connect
+export const connectClientId = process.env.STRIPE_CONNECT_CLIENT_ID!;
 
 export default stripe;
