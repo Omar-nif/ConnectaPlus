@@ -21,15 +21,17 @@ datasource db {
 // - Relación 1:N con Group (un usuario puede ser dueño de varios grupos).
 // ======================================================================
 model User {
-  id              Int       @id @default(autoincrement())
+  id              Int               @id @default(autoincrement())
   name            String?
-  email           String    @unique
+  email           String            @unique
   password        String
-  stripeAccountId String?   // Para Connect
-  createdAt       DateTime  @default(now())
+  stripeAccountId String?           // Para Connect
+  createdAt       DateTime          @default(now())
 
+  // Relaciones
   groups          Group[]
   payments        Payment[]
+  memberships     GroupMembership[] // ← NUEVA relación
 
   @@map("users")
 }
@@ -38,14 +40,14 @@ model User {
 // Modelo: Group
 // - Grupo creado por un dueño (ownerId).
 // - Datos derivados del preset (platformKey/name/planKey, precios, slots).
-// - Credenciales se muestran borrosas en FE hasta “pago completado” (lógica FE).
+// - Credenciales se muestran borrosas en FE hasta "pago completado" (lógica FE).
 // ======================================================================
 model Group {
-  id             Int      @id @default(autoincrement())
+  id             Int               @id @default(autoincrement())
   ownerId        Int
-  owner          User     @relation(fields: [ownerId], references: [id])
-  serviceId      Int?     // ← NUEVO: foreign key opcional
-  service        Service? @relation(fields: [serviceId], references: [id]) // ← NUEVO: relación
+  owner          User              @relation(fields: [ownerId], references: [id])
+  serviceId      Int?              // ← foreign key opcional
+  service        Service?          @relation(fields: [serviceId], references: [id])
   platformKey    String
   platformName   String
   planKey        String?
@@ -54,13 +56,18 @@ model Group {
   pricePerMember Int
   credentials    String
   notes          String?
-  status         String   @default("active")
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  payments       Payment[]
+  status         String            @default("active")
+  currentMembers Int               @default(0) // ← NUEVO CAMPO: contador de miembros activos
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+  
+  // Relaciones
+  payments    Payment[]
+  memberships GroupMembership[] // ← NUEVA relación
 
   @@index([ownerId])
-  @@index([serviceId]) // ← NUEVO: índice para serviceId
+  @@index([serviceId])
+  @@map("groups")
 }
 
 // ======================================================================
@@ -71,10 +78,10 @@ model Payment {
   userId                Int
   groupId               Int?
   stripePaymentIntentId String   @unique
-  amount                Int // en centavos (ej: 1000 = $10.00)
+  amount                Int      // en centavos (ej: 1000 = $10.00)
   currency              String   @default("mxn")
   status                String   @default("pending") // "pending" | "succeeded" | "failed"
-  metadata              Json? // NUEVO: Para datos adicionales
+  metadata              Json?    // Para datos adicionales
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
 
@@ -84,10 +91,11 @@ model Payment {
 
   @@index([userId])
   @@index([groupId])
+  @@map("payments")
 }
 
 // ======================================================================
-// Modelo: Services
+// Modelo: Service
 // ======================================================================
 model Service {
   id           Int      @id @default(autoincrement())
@@ -103,4 +111,31 @@ model Service {
   groups       Group[]
 
   @@map("services")
+}
+
+// ======================================================================
+// Modelo: GroupMembership
+// - Relación muchos-a-muchos entre User y Group
+// - Controla el acceso actual de usuarios a grupos
+// ======================================================================
+model GroupMembership {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  groupId   Int
+  status    String   @default("active") // "active", "inactive", "expired"
+  joinedAt  DateTime @default(now())
+  expiresAt DateTime? // Para suscripciones mensuales
+  paymentId Int?     // Relación al pago que creó esta membresía
+
+  // Relaciones
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  group   Group  @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, groupId])
+  @@index([userId])
+  @@index([groupId])
+  @@index([status])
+  @@index([expiresAt])
+  
+  @@map("group_memberships")
 }

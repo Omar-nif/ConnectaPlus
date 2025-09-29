@@ -12,19 +12,21 @@ import stripeRoutes from './routes/stripe.routes';
 
 const app = express()
 
+// ====== MIDDLEWARES CRÍTICOS PARA WEBHOOKS ======
+// Webhooks deben ir PRIMERO - antes de cualquier otro middleware
+app.use("/webhook", webhookRouter); // Stripe webhooks - usa express.raw() internamente
+
 // ====== CORS, Body parsers y Logger ======
 app.use(cors({
   origin: ["http://localhost:5173"],
   allowedHeaders: ["Content-Type", "Authorization"],
 }));
-//app.use("/webhook", webhookRouter); // por si falla descomentar
+
+// IMPORTANTE: express.json() debe ir DESPUÉS de los webhooks
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 app.use(pino())
-
-// ====== RUTAS ESPECIALES ======
-app.use("/webhook", webhookRouter); //stripe consultara directamente (sin /api/)
 
 // ====== Rutas API ======
 app.use('/api/services', servicesRoutes);
