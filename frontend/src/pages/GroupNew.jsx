@@ -79,7 +79,7 @@ async function onSubmit(e) {
   e.preventDefault();
   setErr("");
 
-  if (!plataformkey) return setErr("Selecciona una plataforma.");
+  if (!platformKey) return setErr("Selecciona una plataforma.");
   if (!credentials.trim()) return setErr("Agregar las credenciales.");
   if (servicePlans.length >0 && !planKey) {
     return setErr("Selecciona un plan");

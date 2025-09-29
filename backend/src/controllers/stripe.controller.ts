@@ -12,13 +12,22 @@ export class StripeController {
     async createGroupCheckout(req: AuthedRequest, res: Response) {
       try {
         const { groupId } = req.body;
+        // Validar que groupId existe y es válido
+      if (!groupId) {
+        return fail(res, "groupId es requerido", 400);
+      }
+
+      const groupIdNumber = parseInt(groupId);
+      if (isNaN(groupIdNumber)) {
+        return fail(res, "groupId debe ser un número válido", 400);
+      }
         const userId = req.user!.id;
   
-        console.log("Creando checkout para grupo:", groupId);
+        console.log("Creando checkout para grupo:", groupIdNumber);
   
         // 1. Buscar información del grupo
         const group = await prisma.group.findUnique({
-          where: { id: parseInt(groupId) },
+          where: { id: groupIdNumber },
           include: { 
             owner: {
               select: {
@@ -41,7 +50,7 @@ export class StripeController {
         const description = `Acceso mensual al grupo de ${group.owner.name}`;
   
         const metadata = {
-          groupId: groupId.toString(),
+          groupId: groupIdNumber.toString(),
           userId: userId.toString(),
           ownerId: group.ownerId.toString(),
           type: 'group_join',
@@ -54,19 +63,25 @@ export class StripeController {
           productName,
           description,
           metadata,
-          `http://localhost:5173/payment/success?session_id={CHECKOUT_SESSION_ID}&group_id=${groupId}`,
-          `http://localhost:5173/groups/${groupId}`,
+          `http://localhost:5173/payment/success?session_id={CHECKOUT_SESSION_ID}&group_id=${groupIdNumber}`,
+          `http://localhost:5173/groups/${groupIdNumber}`,
           group.owner.stripeAccountId || undefined // Connect si está disponible
         );
+  // *******
   
+  //***** */
         // 3. Guardar en base de datos
         await prisma.payment.create({
           data: {
-            userId: parseInt(userId),
-            groupId: parseInt(groupId),
+            user: {
+              connect: { id: parseInt(userId) }
+            },
+            group: {
+              connect: { id: groupIdNumber }
+            },  
             amount: amount,
             currency: 'mxn',
-            stripePaymentIntentId: session.payment_intent as string,
+            stripePaymentIntentId: session.id, //payment_intent as string,
             status: 'pending',
             metadata: {
               usesConnect: !!group.owner.stripeAccountId,

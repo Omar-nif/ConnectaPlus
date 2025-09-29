@@ -11,7 +11,7 @@ export class StripeService {
         productName: string,
         description: string,
         metadata: any,
-        succesURL: string,
+        successURL: string,
         cancelURL: string,
         destinationAccountID?: string //para connect
     ) {
@@ -32,7 +32,7 @@ export class StripeService {
                     }
                 ],
                 mode: 'payment',
-                succes_url: succesURL,
+                success_url: successURL,
                 cancel_url: cancelURL,
                 metadata: metadata,
                 customer_email: metadata.customer_email,
