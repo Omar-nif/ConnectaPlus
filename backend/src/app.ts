@@ -8,6 +8,7 @@ import groupRoutes from "./modules/groups/groups.routes";
 import authRoutes from './modules/auth/auth.routes'
 import webhookRouter from "./routes/webhook";
 import paymentRouter from "./routes/payment";
+import stripeRoutes from './routes/stripe.routes';
 
 const app = express()
 
@@ -30,6 +31,7 @@ app.use('/api/services', servicesRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/groups", groupRoutes); 
 app.use("/api/payment", paymentRouter) 
+app.use('/api/stripe', stripeRoutes);
 
 // ====== Health check ======
 app.get('/', (_req: Request, res: Response) => {

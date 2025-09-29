@@ -75,8 +75,8 @@ export default function JoinGroup() {
         <JoinGroupModal
           show={showModal}
           handleClose={() => setShowModal(false)}
-          handleAccept={handleAccept}
           group={group}
+          //handleAccept={handleAccept}          
         />
       </div>
     );
