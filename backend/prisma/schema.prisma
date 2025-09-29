@@ -21,16 +21,17 @@ datasource db {
 // - Relación 1:N con Group (un usuario puede ser dueño de varios grupos).
 // ======================================================================
 model User {
-  id        Int      @id @default(autoincrement()) // PK autoincremental
-  name      String?                                 // Nombre opcional
-  email     String   @unique                        // Correo único
-  password  String                                  // Hash de contraseña
-  createdAt DateTime @default(now())                // Fecha de creación
+  id              Int       @id @default(autoincrement())
+  name            String?
+  email           String    @unique
+  password        String
+  stripeAccountId String?   // Para Connect
+  createdAt       DateTime  @default(now())
 
-  groups Group[]
-  // Relación con pagos
-  payments Payment[]
+  groups          Group[]
+  payments        Payment[]
 
+  @@map("users")
 }
 
 // ======================================================================
@@ -73,6 +74,7 @@ model Payment {
   amount                Int // en centavos (ej: 1000 = $10.00)
   currency              String   @default("mxn")
   status                String   @default("pending") // "pending" | "succeeded" | "failed"
+  metadata              Json? // NUEVO: Para datos adicionales
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
 

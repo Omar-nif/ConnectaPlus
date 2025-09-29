@@ -1,7 +1,7 @@
 
 import express from "express";
 import Stripe from "stripe";  
-import stripe from "../stripe"; 
+import stripe from "../lib/stripe"; 
 import { PrismaClient } from "@prisma/client";
 
 const router = express.Router();

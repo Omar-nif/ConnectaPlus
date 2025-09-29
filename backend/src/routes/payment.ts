@@ -1,6 +1,6 @@
 // backend/src/routes/payment.ts
 import express, { Request, Response } from "express";
-import stripe from "../stripe";
+import stripe from "../lib/stripe";
 import { PrismaClient } from "@prisma/client";
 
 const router = express.Router();
