@@ -217,7 +217,7 @@ export class WebhookController {
         if (payments.length > 0) {
           const payment = payments[0];
           
-          // ✅ VERIFICACIÓN EXPLÍCITA
+          //  VERIFICACIÓN EXPLÍCITA
           if (!payment) {
             console.error('Payment es undefined en fallback de pago fallido');
             return;

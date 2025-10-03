@@ -6,34 +6,37 @@ import pino from "pino-http";
 import servicesRoutes from './modules/services/services.routes'
 import groupRoutes from "./modules/groups/groups.routes"; 
 import authRoutes from './modules/auth/auth.routes'
-import webhookRouter from "./routes/webhook";
 import paymentRouter from "./routes/payment";
 import stripeRoutes from './routes/stripe.routes';
+import { webhookController } from "./controllers/webhook.controller";
 
 const app = express()
 
 // ====== MIDDLEWARES CRÍTICOS PARA WEBHOOKS ======
-// Webhooks deben ir PRIMERO - antes de cualquier otro middleware
-app.use("/webhook", webhookRouter); // Stripe webhooks - usa express.raw() internamente
+//  WEBHOOK PRIMERO - con raw body ANTES de express.json()
+app.post('/webhook/stripe', 
+  express.raw({type: 'application/json'}), // ← RAW body para webhook
+  webhookController.handleStripeWebhook.bind(webhookController)
+);
 
-// ====== CORS, Body parsers y Logger ======
+// ====== CORS ======
 app.use(cors({
   origin: ["http://localhost:5173"],
   allowedHeaders: ["Content-Type", "Authorization"],
 }));
 
-// IMPORTANTE: express.json() debe ir DESPUÉS de los webhooks
-app.use(express.json())
+// ====== MIDDLEWARES BÁSICOS ======
 app.use(express.urlencoded({ extended: true }))
-
 app.use(pino())
 
-// ====== Rutas API ======
+// ====== RUTAS NORMALES (con express.json) ======
+app.use(express.json()) // ← JSON para rutas normales
+
 app.use('/api/services', servicesRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/groups", groupRoutes); 
 app.use("/api/payment", paymentRouter) 
-app.use('/api/stripe', stripeRoutes);
+app.use('/api/stripe', stripeRoutes); // ← Rutas normales de Stripe
 
 // ====== Health check ======
 app.get('/', (_req: Request, res: Response) => {

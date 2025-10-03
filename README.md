@@ -62,3 +62,7 @@ El proyecto tiene dos grandes módulos:
 ```bash
 git clone https://github.com/<usuario>/connecta-plus.git
 cd connecta-plus
+
+// --------- Ejecutar stripe-CLI --------------
+cd C:\stripe-cli
+.\stripe.exe listen --forward-to localhost:4000/webhook/stripe

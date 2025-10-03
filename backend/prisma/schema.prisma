@@ -139,3 +139,5 @@ model GroupMembership {
   
   @@map("group_memberships")
 }
+
+

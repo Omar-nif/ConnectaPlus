@@ -15,10 +15,4 @@ router.get("/connect/status", requireAuth, stripeController.getOnboardingStatus)
 // Verificación de pagos
 router.get("/payment/verify/:sessionId", stripeController.verifyPayment);
 
-// WEBHOOK - debe usar raw body
-router.post('/webhooks/stripe', 
-  express.raw({type: 'application/json'}),
-  webhookController.handleStripeWebhook.bind(webhookController)
-);
-
 export default router;
