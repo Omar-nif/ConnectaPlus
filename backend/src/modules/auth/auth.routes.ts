@@ -4,7 +4,7 @@
 // ======================================================================
 
 import { Router, Response } from "express";
-import { register, login } from "./auth.controller";  // ← sólo registro/login
+import { register, login, getCurrentUser } from "./auth.controller";
 import { requireAuth, AuthedRequest } from "../../middlewares/auth";
 import { prisma } from "../../lib/prisma";
 import { ok } from "../../utils/http";
@@ -16,6 +16,7 @@ const router = Router();
 // ----------------------------------------------------------------------
 router.post("/register", register);
 router.post("/login",    login);
+router.get("/me", requireAuth, getCurrentUser);
 
 // (Eliminadas) /forgot, /verify, /reset
 

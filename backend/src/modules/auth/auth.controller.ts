@@ -1,16 +1,11 @@
 // backend/src/modules/auth/auth.controller.ts
-// ======================================================================
-// Auth Controller (sin PasswordReset)
-// - Registro y Login
-// - Devuelve tokens (access/refresh)
-// ======================================================================
-
 import { Request, Response } from 'express'
 import { prisma } from '../../lib/prisma'
 import { registerSchema, loginSchema } from './auth.schema'
 import { hashPassword, verifyPassword } from '../../utils/hash'
 import { fail, ok } from '../../utils/http'
 import { signAccess, signRefresh } from '../../utils/jwt'
+import { AuthedRequest } from '../../middlewares/auth';
 
 // ======================================================================
 // POST /api/auth/register
@@ -81,4 +76,36 @@ export async function login(req: Request, res: Response) {
     accessToken,
     refreshToken,
   })
+}
+  
+// ======================================================================
+// GET /api/auth/me
+// - Devuelve los datos del usuario actualmente autenticado
+// ======================================================================
+export async function getCurrentUser(req: AuthedRequest, res: Response) {
+  try {
+    console.log('Obteniendo usuario actual, ID:', req.user!.id);
+    
+    const user = await prisma.user.findUnique({
+      where: { id: parseInt(req.user!.id) }, 
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        stripeAccountId: true,
+        createdAt: true
+      }
+    });
+
+    if (!user) {
+      return fail(res, 'Usuario no encontrado', 404);
+    }
+    
+    console.log('Usuario encontrado:', user.name);
+    return ok(res, user);
+    
+  } catch (error: any) {
+    console.error('Error obteniendo usuario actual:', error);
+    return fail(res, error.message, 500);
+  }
 }

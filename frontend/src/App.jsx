@@ -17,6 +17,7 @@ import Terms from './pages/Terms'
 import Privacy from './pages/Privacy'    
 import ProtectedRoute from './components/ProtectedRoute'
 import JoinGroup from './pages/JoinGroup'; // vista para entrar al grupo
+import { PaymentSuccess } from './pages/PaymentSuccess';
 
 
 function ScrollToTop() {
@@ -36,8 +37,9 @@ export default function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/forgot" element={<ForgotPassword />} />
         <Route path="/reset" element={<ResetPassword />} />
-        <Route path="/terms" element={<Terms />} />         {/* ← nuevo */}
-        <Route path="/privacy" element={<Privacy />} />     {/* ← nuevo */}
+        <Route path="/terms" element={<Terms />} />         
+        <Route path="/privacy" element={<Privacy />} />     
+        <Route path="/payment/success" element={<PaymentSuccess />} />
 
 
         {/* privadas */}
