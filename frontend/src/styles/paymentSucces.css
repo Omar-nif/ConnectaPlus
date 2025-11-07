@@ -1,0 +1,243 @@
+/* PaymentSuccess.css */
+.payment-success-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%);
+    padding: 2rem 1rem;
+  }
+  
+  .payment-success-content {
+    max-width: 42rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  /* Estados de carga y error */
+  .payment-loading, .payment-error {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+  
+  .payment-card {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    padding: 2rem;
+    text-align: center;
+    max-width: 28rem;
+    width: 100%;
+  }
+  
+  /* Spinner */
+  .loading-spinner {
+    animation: spin 1s linear infinite;
+    border-radius: 50%;
+    height: 4rem;
+    width: 4rem;
+    border-bottom: 2px solid #3b82f6;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1.5rem;
+  }
+  
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  /* Iconos de estado */
+  .status-icon {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1.5rem;
+  }
+  
+  .success-icon {
+    background-color: #dcfce7;
+  }
+  
+  .error-icon {
+    background-color: #fee2e2;
+  }
+  
+  .warning-icon {
+    background-color: #fef3c7;
+  }
+  
+  /* Header de éxito */
+  .success-header {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+  
+  /* Credenciales */
+  .credentials-container {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .credential-field {
+    margin-bottom: 1rem;
+  }
+  
+  .credential-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 0.5rem;
+  }
+  
+  .credential-box {
+    background-color: #f9fafb;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    padding: 1rem;
+  }
+  
+  .credential-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .credential-text {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    color: #1f2937;
+  }
+  
+  .copy-button {
+    color: #3b82f6;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+  
+  .copy-button:hover {
+    color: #1d4ed8;
+  }
+  
+  /* Instrucciones */
+  .instructions-container {
+    background-color: #fffbeb;
+    border: 1px solid #fcd34d;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .instructions-header {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #92400e;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+  }
+  
+  .instructions-list {
+    color: #92400e;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .instruction-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Botones */
+  .access-button {
+    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    color: white;
+    padding: 1rem 3rem;
+    border-radius: 0.75rem;
+    font-weight: bold;
+    font-size: 1.125rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .access-button:hover {
+    background: linear-gradient(135deg, #1d4ed8 0%, #7c3aed 100%);
+    transform: scale(1.05);
+  }
+  
+  .back-button {
+    color: #6b7280;
+    margin-top: 1rem;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .back-button:hover {
+    color: #374151;
+  }
+  
+  /* Utilidades de texto */
+  .text-title {
+    font-size: 1.875rem;
+    font-weight: bold;
+    color: #1f2937;
+    margin-bottom: 0.75rem;
+  }
+  
+  .text-subtitle {
+    font-size: 1.25rem;
+    color: #6b7280;
+    margin-bottom: 0.5rem;
+  }
+  
+  .text-service {
+    font-size: 1.125rem;
+    color: #374151;
+  }
+  
+  .text-bold {
+    font-weight: 600;
+  }
+  
+  .text-blue {
+    color: #2563eb;
+  }
+  
+  /* Responsive */
+  @media (max-width: 640px) {
+    .payment-success-container {
+      padding: 1rem 0.5rem;
+    }
+    
+    .payment-card,
+    .success-header,
+    .credentials-container {
+      padding: 1.5rem;
+    }
+    
+    .access-button {
+      padding: 0.875rem 2rem;
+      font-size: 1rem;
+    }
+  }

@@ -246,3 +246,109 @@ export async function getPublicGroup(req: Request, res: Response) {
 
   return ok(res, group);
 }
+
+// mandar token a payment succes
+export async function getGroupPublic(req: Request, res: Response) {
+  try {
+    const { id } = req.params;
+    const { session_id } = req.query;
+
+    console.log('🔍 Endpoint público - Grupo:', id, 'Session:', session_id);
+
+    // Validar parámetros requeridos
+    if (!id) {
+      return fail(res, 'Se requiere ID del grupo', 400);
+    }
+
+    if (!session_id) {
+      return fail(res, 'Se requiere session_id', 400);
+    }
+
+    const groupId = parseInt(id);
+    if (isNaN(groupId)) {
+      return fail(res, 'ID del grupo inválido', 400);
+    }
+
+    // 1. Verificar que existe un pago completado para esta sesión
+    const payment = await prisma.payment.findFirst({
+      where: {
+        metadata: {
+          path: ['checkoutSessionId'],
+          equals: session_id as string
+        },
+        status: 'completed'
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true
+          }
+        }
+      }
+    });
+
+    if (!payment) {
+      console.log('❌ No se encontró pago completado para sesión:', session_id);
+      return fail(res, 'Pago no verificado o no completado', 403);
+    }
+
+    console.log('✅ Pago verificado - User:', payment.user.name);
+
+    // 2. Obtener datos del grupo
+    const group = await prisma.group.findUnique({
+      where: { id: groupId }, // ← Usar groupId ya validado
+      include: {
+        owner: {
+          select: {
+            id: true,
+            name: true,
+            email: true
+          }
+        },
+        service: true
+      }
+    });
+
+    if (!group || group.status !== 'active') {
+      return fail(res, 'Grupo no disponible', 404);
+    }
+
+    // 3. Verificar que el usuario del pago tiene membresía activa
+    const membership = await prisma.groupMembership.findFirst({
+      where: {
+        userId: payment.userId,
+        groupId: groupId, // ← Usar groupId ya validado
+        status: 'active'
+      }
+    });
+
+    if (!membership) {
+      console.log('❌ Usuario no tiene membresía activa');
+      return fail(res, 'Acceso no autorizado', 403);
+    }
+
+    console.log('✅ Membresía verificada');
+
+    // 4. Devolver datos del grupo (sin información sensible)
+    const response = {
+      id: group.id,
+      platformName: group.platformName,
+      platformKey: group.platformKey,
+      credentials: group.credentials,
+      owner: group.owner,
+      service: group.service,
+      currentMembers: group.currentMembers,
+      pricePerMember: group.pricePerMember,
+      status: group.status,
+      createdAt: group.createdAt
+    };
+
+    return ok(res, response);
+    
+  } catch (error: any) {
+    console.error('Error en endpoint público de grupo:', error);
+    return fail(res, error.message, 500);
+  }
+}
