@@ -1,6 +1,6 @@
 // ===============================================================
-// El proposito de este archivo solo es llenar la base de datos ||
-//================================================================
+// El propósito de este archivo solo es llenar la base de datos ||
+// ===============================================================
 import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
@@ -12,7 +12,7 @@ const SERVICES_DATA = [
     name: 'Netflix',
     description: 'Series y películas ilimitadas',
     category: 'peliculas-series',
-    basePriceMXN: 219,  // Precio actualizado (2024)
+    basePriceMXN: 219,
     slots: 4,
     plans: {
       estandar: "Estándar con anuncios",
@@ -24,7 +24,7 @@ const SERVICES_DATA = [
     name: 'Amazon Prime Video',
     description: 'Películas, series y contenido original',
     category: 'peliculas-series',
-    basePriceMXN: 499,  // Precio anual (mensual ≈ 42 MXN)
+    basePriceMXN: 499,
     slots: 6,
     plans: {
       prime: "Prime Video + Envíos gratis"
@@ -37,7 +37,7 @@ const SERVICES_DATA = [
     category: 'peliculas-series',
     basePriceMXN: 99,
     slots: 3,
-    plans: null
+    plans: {}
   },
   {
     slug: 'apple-tv-plus',
@@ -46,7 +46,7 @@ const SERVICES_DATA = [
     category: 'peliculas-series',
     basePriceMXN: 139,
     slots: 6,
-    plans: null
+    plans: {}
   },
   {
     slug: 'disney-plus',
@@ -79,7 +79,7 @@ const SERVICES_DATA = [
     name: 'Microsoft 365',
     description: 'Office, OneDrive, Teams y más',
     category: 'programas',
-    basePriceMXN: 1199,  // Precio anual (mensual ≈ 100 MXN)
+    basePriceMXN: 1199,
     slots: 6,
     plans: {
       personal: "Personal",
@@ -91,7 +91,7 @@ const SERVICES_DATA = [
     name: 'Google One',
     description: 'Almacenamiento en la nube y beneficios Google',
     category: 'programas',
-    basePriceMXN: 149,  // 200GB plan
+    basePriceMXN: 149,
     slots: 5,
     plans: {
       basic: "200GB",
@@ -116,7 +116,7 @@ const SERVICES_DATA = [
     name: 'Canva Pro',
     description: 'Diseño gráfico y plantillas premium',
     category: 'programas',
-    basePriceMXN: 1499,  // Precio anual (mensual ≈ 125 MXN)
+    basePriceMXN: 1499,
     slots: 5,
     plans: {
       pro: "Pro",
@@ -229,7 +229,7 @@ const SERVICES_DATA = [
     name: 'PlayStation Plus',
     description: 'Juegos online, mensuales y descuentos',
     category: 'juegos',
-    basePriceMXN: 1049,  // Precio anual Essential
+    basePriceMXN: 1049,
     slots: 1,
     plans: {
       essential: "Essential",
@@ -242,7 +242,7 @@ const SERVICES_DATA = [
     name: 'Nintendo Switch Online',
     description: 'Juegos online, NES y SNES classic',
     category: 'juegos',
-    basePriceMXN: 599,  // Precio anual Individual
+    basePriceMXN: 599,
     slots: 8,
     plans: {
       individual: "Individual",
@@ -250,9 +250,10 @@ const SERVICES_DATA = [
     }
   }
 ];
+
 async function main() {
   console.log('Poblando base de datos con servicios...')
-  
+
   for (const serviceData of SERVICES_DATA) {
     await prisma.service.upsert({
       where: { slug: serviceData.slug },
@@ -261,7 +262,7 @@ async function main() {
     })
     console.log(`✅ ${serviceData.name} agregado`)
   }
-  
+
   console.log('🎉 Base de datos poblada exitosamente!')
 }
 
